@@ -9,12 +9,12 @@ dt_type_pal_new_double={"Dragon":["#036dc4","#036dc4"],"Dragon/Fly":["#036dc4","
 OLD_TYPE_PALETTE = pd.DataFrame.from_dict(type_pal_old, orient = 'index', columns = ['coulours'])
 NEW_TYPE_PALETTE =  pd.DataFrame.from_dict(type_pal_new,orient = 'index', columns = ['coulours'])
 NEW_DTYPE_PALETTE =  pd.DataFrame.from_dict(dt_type_pal_new,orient = 'index', columns = ['coulours'])
-NEW_TYPE_PALETTE_DOUBLE =  pd.DataFrame.from_dict(dt_type_pal_new_double,orient = 'index', columns = ['1 type col','2 type col'])
+NEW_DTYPE_PALETTE_DOUBLE =  pd.DataFrame.from_dict(dt_type_pal_new_double,orient = 'index', columns = ['1 type col','2 type col'])
 
 POKEDATA = pd.read_csv('/workspaces/pokedata-jroose11/data/pokedata.csv', sep = ';')
 POKEMOVES = pd.read_csv('/workspaces/pokedata-jroose11/data/Full_Moves.csv', sep = ';')
 ATT_MOVES = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_ATT_MOVES.csv', sep = ';')
-STATUS_MOVES = pd.read_csv('/workspaces/pokedata-jroose11/data/Full_Moves.csv', sep = ';')
+STATUS_MOVES = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_STATUS_MOVES.csv', sep = ';')
 JROOSE11 = pd.read_csv('/workspaces/pokedata-jroose11/data/JROOSE11.csv', sep = ';')
 
 
