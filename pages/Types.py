@@ -87,35 +87,33 @@ Stats = st.radio("Choose the Stats you'd like to display :",
 
 Stats_2 = Stats + '_2'
 
-
 #Ploting
 
 # Defining colors based on dt_type_pal_new_double palette
 colors = {key: dt_type_pal_new_double.get(key, ['blue', 'green']) for key in locals()[Stats].index}
 
-# Creating trace for the first half of TOT
-trace1 = go.Bar(
-    x=locals()[Stats].index,
-    y=locals()[Stats].values,
-    marker=dict(color=[colors[key][0] for key in locals()[Stats].index], line=dict(color='rgba(0,0,0,0)')),
-    showlegend=False
-)
+data = []
 
-# Creating trace for the second half of TOT
-trace2 = go.Bar(
-    x=locals()[Stats].index,
-    y=locals()[Stats_2].values,
-    marker=dict(color=[colors[key][1] for key in locals()[Stats].index], line=dict(color='rgba(0,0,0,0)')),
-    showlegend=False
-)
+# Modify traces to include hoverinfo
+for i, stat_value in enumerate([locals()[Stats].values, locals()[Stats_2].values]):
+    trace = go.Bar(
+        x=locals()[Stats].index,
+        y=stat_value,
+        marker=dict(color=[colors[key][i] for key in locals()[Stats].index], line=dict(color='rgba(0,0,0,0)')),
+        showlegend=False,
+        hoverinfo='text'  # Set hoverinfo to include text
+    )
+    # Extracting Pokémon data for hover text
+    hover_text = []
+    for dtype in locals()[Stats].index:
+        pokemon_list = pokedata.loc[pokedata['DTYPES'] == dtype, 'POKEMON'].tolist()
+        hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
+    trace.hovertext = hover_text  # Assigning hover text to the trace
+    data.append(trace)
 
-# Creating data list for the plot
-data = [trace1, trace2]
-
-# Creating layout
 layout = go.Layout(
-    title='total {} for each Types in Jroose Tier List'.format(Stats),
-    title_x=0.25,  # Setting title position to the center
+    title=f'Total {Stats} for each Types in Jroose Tier List',
+    title_x=0.25,
     xaxis=dict(
         title='DTYPES',
         tickangle=45,
@@ -124,13 +122,10 @@ layout = go.Layout(
         )
     ),
     yaxis=dict(
-        title= Stats
+        title=Stats
     ),
     barmode='overlay'
 )
 
-# Creating figure
 fig = go.Figure(data=data, layout=layout)
-
-# Displaying the interactive plot
 st.plotly_chart(fig)
