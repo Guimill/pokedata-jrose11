@@ -1,4 +1,5 @@
 import pandas as pd
+import streamlit as st
 
 type_pal_old={"Dragon":"#4f60e2","Electrik":"#fac100","Fighting":"#ff8100","Fire":"#e72324","Ghost":"#713f71","Ground":"#92501b","Ice":"#3dd9ff","Insect":"#92a312","Normal":"#a0a3a0","Plant":"#3da324","Poison":"#923fcc","Psychic":"#ef3f7a","Rock":"#b1ab82","Water":"#2481ef","Fly":"#82baef"}
 type_pal_new={"Dragon":"#036dc4","Electrik":"#f4d339","Fighting":"#cf3f6b","Fire":"#ff9e54","Ghost":"#5169ae","Ground":"#da7943","Ice":"#74cfc1","Insect":"#92c22b","Normal":"#929ba3","Plant":"#63bb5a","Poison":"#ac6bc9","Psychic":"#fa727a","Rock":"#c6b88d","Water":"#4f91d7","Fly":"#90abdf"}
@@ -35,3 +36,5 @@ for column in pokemoves_STATUS.columns:
 
 for column in pokedata_jroose.columns:
     pokedata_jroose[column].fillna(replace_values.get(str(pokedata_jroose[column].dtype), ''), inplace=True)
+
+st.button('JROSSE','display jroose11 dataset', on_click=pokedata_jroose)
