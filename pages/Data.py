@@ -14,6 +14,8 @@ pokedata = pd.read_csv('/workspaces/pokedata-jroose11/data/pokedata.csv')
 pokemoves = pd.read_csv('/workspaces/pokedata-jroose11/data/Full_Moves.csv', sep = ';')
 pokemoves_ATT = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_ATT_MOVES.csv', sep = ';')
 pokemoves_STATUS= pd.read_csv('/workspaces/pokedata-jroose11/data/Full_Moves.csv', sep = ';')
+pokedata_jroose = pd.read_csv('/workspaces/pokedata-jroose11/data/JROOSE11.csv', sep = ';')
+
 
 # Define replacement values for NaN based on data types
 replace_values = {'int64': 0, 'float64': 0.0, 'object': ''}
@@ -30,3 +32,6 @@ for column in pokemoves_ATT.columns:
 
 for column in pokemoves_STATUS.columns:
     pokemoves_STATUS[column].fillna(replace_values.get(str(pokemoves_STATUS[column].dtype), ''), inplace=True)
+
+for column in pokedata_jroose.columns:
+    pokedata_jroose[column].fillna(replace_values.get(str(pokedata_jroose[column].dtype), ''), inplace=True)
