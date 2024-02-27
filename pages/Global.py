@@ -3,6 +3,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 
+st.set_page_config(
+        page_title="Global",
+        page_icon="🌍",
+    )
+
 #palette
 
 type_pal_old={"Dragon":"#4f60e2","Electrik":"#fac100","Fighting":"#ff8100","Fire":"#e72324","Ghost":"#713f71","Ground":"#92501b","Ice":"#3dd9ff","Insect":"#92a312","Normal":"#a0a3a0","Plant":"#3da324","Poison":"#923fcc","Psychic":"#ef3f7a","Rock":"#b1ab82","Water":"#2481ef","Fly":"#82baef"}

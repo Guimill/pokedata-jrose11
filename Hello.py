@@ -21,7 +21,7 @@ LOGGER = get_logger(__name__)
 def run():
     st.set_page_config(
         page_title="Pokedata Jroose",
-        page_icon="📊",
+        page_icon="🎮",
     )
 
     st.write("# Welcome to Pokedata Jroose 11 by Milleret Guillaume ! 👋")

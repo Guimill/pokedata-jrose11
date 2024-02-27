@@ -16,9 +16,14 @@
 
 import streamlit as st
 import matplotlib.pyplot as plt
-import pandas as pd
 import copy
+import pandas as pd
+import streamlit as st
 
+st.set_page_config(
+        page_title="Moves",
+        page_icon="💥",
+    )
 
 ### Palettes
 
