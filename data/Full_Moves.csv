@@ -1,0 +1,162 @@
+NUMERO;MOVE;TYPE;STRENGTH;PRECISION;PP;TM_HM;SPE;STATUS _MOVE;STATUS_TYPE;EFFECT;FULL_EFFECT
+1;Pound;Normal;40;100;35;;;0;;;
+2;Karate Chop;Normal;50;100;25;;;0;;;
+3;Double Slap;Normal;44;85;10;;;0;;;
+4;Comet Punch;Normal;44;85;15;;;0;;;
+5;Mega Punch;Normal;80;85;20;TM01;;0;;;
+6;Pay Day;Normal;40;100;20;TM16;;0;;;
+7;Fire Punch;Fire;75;100;15;;;0;;;
+8;Ice Punch;Ice;75;100;15;;;0;;;
+9;Thunder Punch;Electrik;75;100;15;;;0;;;
+10;Scratch;Normal;40;100;35;;;0;;;
+11;Vice Grip;Normal;55;100;30;;;0;;;
+12;Guillotine;Normal;;30;5;;OHKO;0;;;
+13;Razor Wind;Normal;80;75;10;TM02;;0;;;
+15;Cut;Normal;50;95;30;HM01;;0;;;
+16;Gust;Normal;40;100;35;;;0;;;
+17;Wing Attack;Fly;60;100;35;;;0;;;
+18;Whirlwind;Normal;;85;20;TM04;ESCAPE;0;;;
+19;Fly;Fly;70;95;15;HM02;;0;;;
+20;Bind;Normal;44;75;20;;;0;;;
+21;Slam;Normal;80;75;20;;;0;;;
+22;Vine Whip;Plant;35;100;10;;;0;;;
+23;Stomp;Normal;65;100;20;;;0;;;
+24;Double Kick;Fighting;60;100;30;;;0;;;
+25;Mega Kick;Normal;120;75;5;TM05;;0;;;
+26;Jump Kick;Fighting;70;95;25;;;0;;;
+27;Rolling Kick;Fighting;60;85;15;;;0;;;
+29;Headbutt;Normal;70;100;15;;;0;;;
+30;Horn Attack;Normal;65;100;25;;;0;;;
+31;Fury Attack;Normal;44;85;20;;;0;;;
+32;Horn Drill;Normal;;30;5;TM07;OHKO;0;;;
+33;Tackle;Normal;35;95;35;;;0;;;
+34;Body Slam;Normal;85;100;15;TM08;;0;;;
+35;Wrap;Normal;44;85;20;;;0;;;
+36;Take Down;Normal;90;85;20;TM09;;0;;;
+37;Thrash;Normal;90;100;20;;;0;;;
+38;Double-Edge;Normal;100;100;15;;;0;;;
+40;Poison Sting;Poison;15;100;35;;;0;;;
+41;Twineedle;Insect;50;100;20;;;0;;;
+42;Pin Missile;Insect;42;85;20;;;0;;;
+44;Bite;Normal;60;100;25;;;0;;;
+46;Roar;Normal;;100;20;;ESCAPE;0;;;
+49;Sonicboom;Normal;;90;20;;20 HP;0;;;
+50;Disable;Normal;;55;20;;DISABLE;0;;;
+51;Acid;Poison;40;100;30;;;0;;;
+52;Ember;Fire;40;100;25;;;0;;;
+53;Flamethrower;Fire;95;100;15;;;0;;;
+55;Water Gun;Water;40;100;25;TM12;;0;;;
+56;Hydro Pump;Water;120;80;5;;;0;;;
+57;Surf;Water;95;100;15;HM03;;0;;;
+58;Ice Beam;Ice;95;100;10;TM13;;0;;;
+59;Blizzard;Ice;120;90;5;TM14;;0;;;
+60;Psybeam;Psychic;65;100;20;;;0;;;
+61;Bubblebeam;Water;65;100;20;;;0;;;
+62;Aurora Beam;Ice;65;100;20;;;0;;;
+63;Hyper Beam;Normal;150;90;5;TM15;;0;;;
+64;Peck;Fly;35;100;35;;;0;;;
+65;Drill Peck;Fly;80;100;20;;;0;;;
+66;Submission;Fighting;80;80;25;TM17;;0;;;
+67;Low Kick;Fighting;50;90;20;;;0;;;
+68;Counter;Fighting;;100;20;TM18;COUNTER;0;;;
+69;Seismic Toss;Fighting;;100;20;TM19;LEVEL;0;;;
+70;Strength;Normal;80;100;15;HM04;;0;;;
+71;Absorb;Plant;20;100;20;;;0;;;
+72;Mega Drain;Plant;40;100;10;TM21;;0;;;
+73;Leech Seed;Plant;;90;10;;STEAL HP;0;;;
+75;Razor Leaf;Plant;55;95;25;;;0;;;
+76;Solar Beam;Plant;120;100;10;;;0;;;
+80;Petal Dance;Plant;70;100;20;;;0;;;
+82;Dragon Rage;Dragon;;100;10;TM23;40 HP;0;;;
+83;Fire Spin;Fire;44;70;15;;;0;;;
+84;Thunder Shock;Electrik;40;100;30;;;0;;;
+85;Thunderbolt;Electrik;95;100;15;TM24;;0;;;
+87;Thunder;Electrik;120;70;10;TM25;;0;;;
+88;Rock Throw;Rock;50;65;15;;;0;;;
+89;Earthquake;Ground;100;100;10;TM26;;0;;;
+90;Fissure;Ground;;30;5;TM27;OHKO;0;;;
+91;Dig;Ground;100;100;10;TM28;;0;;;
+93;Confusion;Psychic;50;100;25;;;0;;;
+94;Psychic;Psychic;90;100;10;TM29;;0;;;
+98;Quick Attack;Normal;40;100;30;;;0;;;
+99;Rage;Normal;20;100;20;TM20;;0;;;
+100;Teleport;Psychic;;100;20;TM30;ESCAPE;0;;;
+101;Night Shade;Ghost;;100;15;;LEVEL;0;;;
+105;Recover;Normal;;100;20;;HEAL;0;;;
+117;Bide;Normal;;100;10;TM34;COUNTER;0;;;
+118;Metronome;Normal;;100;10;TM35;ALEATOIRE;0;;;
+119;Mirror Move;Fly;;100;20;;LAST ATT;0;;;
+121;Egg Bomb;Normal;100;75;10;;;0;;;
+122;Lick;Ghost;20;100;30;;;0;;;
+123;Smog;Poison;20;70;20;;;0;;;
+124;Sludge;Poison;65;100;20;;;0;;;
+125;Bone Club;Ground;65;85;20;;;0;;;
+126;Fire Blast;Fire;120;85;5;;;0;;;
+127;Waterfall;Water;80;100;15;;;0;;;
+128;Clamp;Water;105;75;10;;;0;;;
+129;Swift;Normal;60;100;20;TM39;;0;;;
+130;Skull Bash;Normal;100;100;15;TM40;;0;;;
+131;Spike Cannon;Normal;60;100;15;;;0;;;
+132;Constrict;Normal;10;100;35;;;0;;;
+136;High Jump Kick;Fighting;85;90;20;;;0;;;
+138;Dream Eater;Psychic;100;100;15;TM42;;0;;;
+140;Barrage;Normal;44;85;20;;;0;;;
+141;Leech Life;Insect;20;100;15;;;0;;;
+143;Sky Attack;Fly;140;90;5;TM43;;0;;;
+144;Transform;Normal;;100;10;;;0;;;
+145;Bubble;Water;20;100;30;;;0;;;
+146;Dizzy Punch;Normal;70;100;10;;;0;;;
+149;Psywave;Psychic;;80;15;TM46;LEVEL;0;;;
+150;Splash;Normal;0;100;40;;;0;;;
+152;Crabhammer;Water;90;85;10;;;0;;;
+154;Fury Swipes;Normal;54;80;15;;;0;;;
+155;Bonemerang;Ground;100;90;10;;;0;;;
+157;Rock Slide;Rock;75;90;10;TM48;;0;;;
+158;Hyper Fang;Normal;80;90;15;;;0;;;
+160;Conversion;Normal;;100;30;;CHANGE TYPE;0;;;
+161;Tri-Attack;Normal;80;100;10;;;0;;;
+162;Super Fang;Normal;;90;10;;HALF HP;0;;;
+163;Slash;Normal;70;100;20;;;0;;;
+164;Substitute;Normal;;100;10;TM50;CLONE;0;;;
+165;Struggle;Normal;50;100;10;;;0;;;
+14;Swords Dance;Normal;;100;30;TM03;;1;ATT;RAISE;ATT RAISE
+28;Sand-Attack;Normal;;100;15;;;1;ACCURACY;DROP;ACCURACY DROP
+39;Tail Whip;Normal;;100;30;;;1;DEF;DROP;DEF DROP
+43;Leer;Normal;;100;30;;;1;DEF;DROP;DEF DROP
+45;Growl;Normal;;100;40;;;1;ATT;DROP;ATT DROP
+47;Sing;Normal;;55;15;;;1;SLEEP;;SLEEP 
+48;Supersonic;Normal;;55;20;;;1;CONFUSION;;CONFUSION 
+54;Mist;Ice;;100;30;;;1;CANCEL;;CANCEL 
+74;Growth;Normal;;100;40;;;1;SPE;RAISE;SPE RAISE
+77;Poison Powder;Poison;;75;35;;;1;POISON;;POISON 
+78;Stun Spore;Plant;;75;30;;;1;PARALYSIS;;PARALYSIS 
+79;Sleep Powder;Plant;;75;15;;;1;SLEEP;;SLEEP 
+81;String Shot;Insect;;95;40;;;1;VIT;DROP;VIT DROP
+86;Thunder Wave;Electrik;;100;20;TM45;;1;PARALYSIS;;PARALYSIS 
+92;Toxic;Poison;;85;10;TM06;;1;POISON;;POISON 
+95;Hypnosis;Psychic;;60;20;;;1;SLEEP;;SLEEP 
+96;Meditate;Psychic;;100;40;;;1;ATT SPE;RAISE;ATT SPE RAISE
+97;Agility;Psychic;;100;30;;;1;VIT;RAISE;VIT RAISE
+103;Screech;Normal;;85;40;;;1;DEF;DROP;DEF DROP
+104;Double Team;Normal;;100;15;TM32;;1;VIT;RAISE;VIT RAISE
+106;Harden;Normal;;100;30;;;1;DEF;RAISE;DEF RAISE
+107;Minimize;Normal;;100;20;;;1;ESQUIVE;RAISE;ESQUIVE RAISE
+108;Smokescreen;Normal;;100;20;;;1;ACCURACY;DROP;ACCURACY DROP
+109;Confuse Ray;Ghost;;100;10;;;1;CONFUSION;;CONFUSION 
+110;Withdraw;Water;;100;40;;;1;DEF;RAISE;DEF RAISE
+111;Defense Curl;Normal;;100;40;;;1;DEF;RAISE;DEF RAISE
+112;Barrier;Psychic;;100;30;;;1;DEF;RAISE;DEF RAISE
+113;Light Screen;Psychic;;100;30;;;1;DEF SPE;RAISE;DEF SPE RAISE
+114;Haze;Ice;;100;30;;;1;CANCEL;;CANCEL 
+115;Reflect;Psychic;;100;20;TM33;;1;DEF;RAISE;DEF RAISE
+116;Focus Energy;Normal;;100;30;;;1;ACCURACY;RAISE;ACCURACY RAISE
+133;Amnesia;Psychic;;100;20;;;1;SPE;RAISE;SPE RAISE
+134;Kinesis;Psychic;;80;15;;;1;ACCURACY;DROP;ACCURACY DROP
+137;Glare;Normal;;75;30;;;1;PARALYSIS;;PARALYSIS 
+139;PoisonGas;Poison;;55;40;;;1;POISON;;POISON 
+142;Lovely Kiss;Normal;;75;10;;;1;SLEEP;;SLEEP 
+147;Spore;Plant;;100;15;;;1;SLEEP;;SLEEP 
+148;Flash;Normal;;70;20;HM05;;1;ACCURACY;DROP;ACCURACY DROP
+151;Acid Armor;Poison;;100;40;;;1;DEF;RAISE;DEF RAISE
+156;Rest;Psychic;;100;10;TM44;HEAL;1;SLEEP;SELF;SLEEP SELF
+159;Sharpen;Normal;;100;30;;;1;ATT;RAISE;ATT RAISE

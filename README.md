@@ -1,7 +1,10 @@
-# Welcome to streamlit
+# Welcome to pokedata Jroose11 by GuiMill
 
-This is the app you get when you run `streamlit hello`, extracted as its own app.
+This webapp is design to give interpretetions and interactivness on the binding beetween Jroose11 runs and the datas from pokemon gen 1
 
-Edit [Hello.py](./Hello.py) to customize this app to your heart's desire. ❤️
+I hope you'll find it usefull and fun !
 
-Check it out on [Streamlit Community Cloud](https://st-hello-app.streamlit.app/)
+I want to thank Jroose11 for it's work and all people that work or have been working on sites that provides pokedatas, especially Bulbapedia, Pokepédia and "insert the guy were the data from moves come from".
+And also, all people that work for the libraries that I used.
+
+Enjoy ! 

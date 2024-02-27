@@ -1,0 +1,123 @@
+NUMERO;MOVE;TYPE;STRENGTH;PRECISION;PP;TM_HM;SPE
+1;Pound;Normal;40;100;35;;
+2;Karate Chop;Normal;50;100;25;;
+3;Double Slap;Normal;15;85;10;;
+4;Comet Punch;Normal;18;85;15;;
+5;Mega Punch;Normal;80;85;20;TM01;
+6;Pay Day;Normal;40;100;20;TM16;
+7;Fire Punch;Fire;75;100;15;;
+8;Ice Punch;Ice;75;100;15;;
+9;Thunder Punch;Electrik;75;100;15;;
+10;Scratch;Normal;40;100;35;;
+11;ViceGrip;Normal;55;100;30;;
+12;Guillotine;Normal;;30;5;;OHKO
+13;Razor Wind;Normal;80;75;10;TM02;
+15;Cut;Normal;50;95;30;HM01;
+16;Gust;Normal;40;100;35;;
+17;Wing Attack;Fly;35;100;35;;
+18;Whirlwind;Normal;;85;20;TM04;ESCAPE
+19;Fly;Fly;70;95;15;HM02;
+20;Bind;Normal;15;75;20;;
+21;Slam;Normal;80;75;20;;
+22;Vine Whip;Plant;35;100;10;;
+23;Stomp;Normal;65;100;20;;
+24;Double Kick;Fighting;60;100;30;;
+25;Mega Kick;Normal;120;75;5;TM05;
+26;Jump Kick;Fighting;70;95;25;;
+27;Rolling Kick;Fighting;60;85;15;;
+29;Headbutt;Normal;70;100;15;;
+30;Horn Attack;Normal;65;100;25;;
+31;Fury Attack;Normal;15;85;20;;
+32;Horn Drill;Normal;;30;5;TM07;OHKO
+33;Tackle;Normal;35;95;35;;
+34;Body Slam;Normal;85;100;15;TM08;
+35;Wrap;Normal;15;85;20;;
+36;Take Down;Normal;90;85;20;TM09;
+37;Thrash;Normal;90;100;20;;
+38;Double-Edge;Normal;100;100;15;;
+40;Poison Sting;Poison;15;100;35;;
+41;Twineedle;Insect;50;100;20;;
+42;Pin Missile;Insect;42;85;20;;
+44;Bite;Normal;60;100;25;;
+46;Roar;Normal;;100;20;;ESCAPE
+49;Sonicboom;Normal;;90;20;;20 HP
+50;Disable;Normal;;55;20;;DISABLE
+51;Acid;Poison;40;100;30;;
+52;Ember;Fire;40;100;25;;
+53;Flamethrower;Fire;95;100;15;;
+55;Water Gun;Water;40;100;25;TM12;
+56;Hydro Pump;Water;120;80;5;;
+57;Surf;Water;95;100;15;HM03;
+58;Ice Beam;Ice;95;100;10;TM13;
+59;Blizzard;Ice;120;90;5;TM14;
+60;Psybeam;Psychic;65;100;20;;
+61;Bubblebeam;Water;65;100;20;;
+62;Aurora Beam;Ice;65;100;20;;
+63;Hyper Beam;Normal;150;90;5;TM15;
+64;Peck;Fly;35;100;35;;
+65;Drill Peck;Fly;80;100;20;;
+66;Submission;Fighting;80;80;25;TM17;
+67;Low Kick;Fighting;50;90;20;;
+68;Counter;Fighting;;100;20;TM18;COUNTER
+69;Seismic Toss;Fighting;;100;20;TM19;LEVEL
+70;Strength;Normal;80;100;15;HM04;
+71;Absorb;Plant;20;100;20;;
+72;Mega Drain;Plant;40;100;10;TM21;
+73;Leech Seed;Plant;;90;10;;STEAL HP
+75;Razor Leaf;Plant;55;95;25;;
+76;Groundar Beam;Plant;120;100;10;;
+80;Petal Dance;Plant;70;100;20;;
+82;Dragon Rage;Dragon;;100;10;TM23;40 HP
+83;Fire Spin;Fire;15;70;15;;
+84;Thunder Shock;Electrik;40;100;30;;
+85;Thunderbolt;Electrik;95;100;15;TM24;
+87;Thunder;Electrik;120;70;10;TM25;
+88;Rock Throw;Rock;50;65;15;;
+89;Earthquake;Ground;100;100;10;TM26;
+90;Fissure;Ground;;30;5;TM27;OHKO
+91;Dig;Ground;100;100;10;TM28;
+93;Confusion;Psychic;50;100;25;;
+94;Psychic;Psychic;90;100;10;TM29;
+98;Quick Attack;Normal;40;100;30;;
+99;Rage;Normal;20;100;20;TM20;
+100;Teleport;Psychic;;100;20;TM30;ESCAPE
+101;Night Shade;Ghost;;100;15;;LEVEL
+105;Recover;Normal;;100;20;;HEAL
+117;Bide;Normal;;100;10;TM34;COUNTER
+118;Metronome;Normal;;100;10;TM35;ALEATOIRE
+119;Mirror Move;Fly;;100;20;;LAST ATT
+120;Selfdestruct;Normal;130;100;5;;
+121;Egg Bomb;Normal;100;75;10;;
+122;Lick;Ghost;20;100;30;;
+123;Smog;Poison;20;70;20;;
+124;Sludge;Poison;65;100;20;;
+125;Bone Club;Ground;65;85;20;;
+126;Fire Blast;Fire;120;85;5;;
+127;Waterfall;Water;80;100;15;;
+128;Clamp;Water;35;75;10;;
+129;Swift;Normal;60;100;20;TM39;
+130;Skull Bash;Normal;100;100;15;TM40;
+131;Spike Cannon;Normal;20;100;15;;
+132;Constrict;Normal;10;100;35;;
+136;High Jump Kick;Fighting;85;90;20;;
+138;Dream Eater;Psychic;100;100;15;TM42;
+140;Barrage;Normal;15;85;20;;
+141;Leech Life;Insect;20;100;15;;
+143;Sky Attack;Fly;140;90;5;TM43;
+144;Transform;Normal;;100;10;;
+145;Bubble;Water;20;100;30;;
+146;Dizzy Punch;Normal;70;100;10;;
+149;Psywave;Psychic;;80;15;TM46;LEVEL
+150;Splash;Normal;0;100;40;;
+152;Crabhammer;Water;90;85;10;;
+153;Explosion;Normal;170;100;5;TM47;
+154;Fury Swipes;Normal;54;80;15;;
+155;Bonemerang;Ground;100;90;10;;
+157;Rock Slide;Rock;75;90;10;TM48;
+158;Hyper Fang;Normal;80;90;15;;
+160;Conversion;Normal;;100;30;;CHANGE TYPE
+161;Tri-Attack;Normal;80;100;10;;
+162;Super Fang;Normal;;90;10;;HALF HP
+163;Slash;Normal;70;100;20;;
+164;Substitute;Normal;;100;10;TM50;CLONE
+165;Struggle;Normal;50;100;10;;
