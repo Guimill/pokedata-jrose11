@@ -18,15 +18,13 @@ from streamlit.logger import get_logger
 LOGGER = get_logger(__name__)
 
 
-def run():
-    st.set_page_config(
+st.set_page_config(
         page_title="Pokedata Jroose",
-        page_icon="🎮",
-    )
+        page_icon="🎮")
 
-    st.write("# Welcome to Pokedata Jroose 11 by Milleret Guillaume ! 👋")
+st.write("# Welcome to Pokedata Jroose 11 by Milleret Guillaume ! 👋")
 
-    st.markdown(
+st.markdown(
         """
 
         This webapp is design to give interpretetions and interactivness on the binding beetween Jroose11 runs and the datas from pokemon gen 1
@@ -38,9 +36,6 @@ def run():
 
         Enjoy !
 
-        """
-    )
+        """)
 
-
-if __name__ == "__main__":
-    run()
+st.sidebar.success("Contact")
