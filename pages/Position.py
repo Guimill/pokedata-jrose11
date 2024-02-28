@@ -1,10 +1,12 @@
-import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
+import seaborn as sns
+
 
 st.set_page_config(
-        page_title="Types",
-        page_icon="💧",
+        page_title="Position",
+        page_icon="🔝",
     )
 
 #palette
@@ -37,104 +39,46 @@ for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
 
-#Stat preparation
+labels_used = set()
 
-# Grouping by DTYPES and calculating mean of HP
-HP = pokedata.groupby('DTYPES')['HP'].mean().sort_values()
-HP_2 = HP / 2
+# Create a figure with 2x3 subplots
+fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
+axes = axes.flatten()
 
-# Grouping by DTYPES and calculating mean of ATT
-ATT = pokedata.groupby('DTYPES')['ATT'].mean().sort_values()
-ATT_2 = ATT / 2
+attributes = ['BULK', 'ATT', 'DEF', 'SPD', 'SPE', 'HP']
 
-# Grouping by DTYPES and calculating mean of DEF
-DEF = pokedata.groupby('DTYPES')['DEF'].mean().sort_values()
-DEF_2 = DEF / 2
+for i, attribute in enumerate(attributes):
+    # Sort data by the current attribute
+    pokedata_sorted = pokedata.sort_values(by=attribute)
 
-# Grouping by DTYPES and calculating mean of SPD
-SPD = pokedata.groupby('DTYPES')['SPD'].mean().sort_values()
-SPD_2 = SPD / 2
+    for index, row in pokedata_sorted.iterrows():
+        avg_value = row[attribute]
+        dtypes = row['DTYPES']
+        colordt = dt_type_pal_new_double.get(dtypes)[0]
+        markerfacecoloraltdt = dt_type_pal_new_double.get(dtypes)[1]
+        if dtypes not in labels_used:
+            axes[i].plot(row['POSITION'], avg_value, c=colordt, markerfacecoloralt=markerfacecoloraltdt,
+                         marker='.', markeredgecolor='none', linestyle='', markersize=15, fillstyle='left', label=dtypes)
+            labels_used.add(dtypes)
+        else:
+            axes[i].plot(row['POSITION'], avg_value, c=colordt, markerfacecoloralt=markerfacecoloraltdt,
+                         marker='.', markeredgecolor='none', linestyle='', markersize=15, fillstyle='left')
 
-# Grouping by DTYPES and calculating mean of SPE
-SPE = pokedata.groupby('DTYPES')['SPE'].mean().sort_values()
-SPE_2 = SPE / 2
+    # Adding linear regression line
+    sns.regplot(x=pokedata_sorted['POSITION'], y=pokedata_sorted[attribute],
+                scatter=False, color='black', ax=axes[i])
 
-# Grouping by DTYPES and calculating mean of TOT
-TOT = pokedata.groupby('DTYPES')['TOT'].mean().sort_values()
-TOT_2 = TOT / 2
+    axes[i].set_xlabel('')
+    axes[i].set_ylabel(attribute)
 
-# Grouping by DTYPES and calculating mean of BULK
-BULK = pokedata.groupby('DTYPES')['BULK'].mean().sort_values()
-BULK_2 = BULK / 2
+# Adjust layout
+plt.tight_layout()
+
+# Place the legend outside the subplots
+plt.suptitle('Statistics impact on POSITION 1-84', x = 0.5, y = 1.05, fontsize=16)
+fig.legend(loc='lower center', bbox_to_anchor=(0.5, -0.2), fontsize=10, ncol=6, title="Legend")
 
 
-#UI preparation
 
-Stats = st.radio("Choose the Stats you'd like to display :",
-                     ["HP","ATT","DEF","SPD","SPE","TOT","BULK"],
-                     horizontal = True)
-
-Stats_2 = Stats + '_2'
-
-#Ploting
-
-# Defining colors based on dt_type_pal_new_double palette
-colors = {key: dt_type_pal_new_double.get(key, ['blue', 'green']) for key in locals()[Stats].index}
-
-pokemon_counts = pokedata['DTYPES'].value_counts()
-
-data = []
-
-# Adding text annotation to the first bar only
-trace = go.Bar(
-    x=locals()[Stats].index,
-    y=locals()[Stats].values,
-    marker=dict(color=[colors[key][0] for key in locals()[Stats].index], line=dict(color='rgba(0,0,0,0)')),
-    showlegend=False,
-    hoverinfo='text',  # Set hoverinfo to include text
-    text=pokemon_counts[locals()[Stats].index],  # Add text annotation with Pokémon counts
-    textposition='outside',  # Set position of text annotation
-)
-# Extracting Pokémon data for hover text
-hover_text = []
-for dtype in locals()[Stats].index:
-    pokemon_list = pokedata.loc[pokedata['DTYPES'] == dtype, 'POKEMON'].tolist()
-    hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
-trace.hovertext = hover_text  # Assigning hover text to the trace
-data.append(trace)
-
-# Adding other bars without text annotation
-for i, stat_value in enumerate([locals()[Stats_2].values[1:]]):
-    trace = go.Bar(
-        x=locals()[Stats].index[1:],
-        y=stat_value,
-        marker=dict(color=[colors[key][i + 1] for key in locals()[Stats].index[1:]], line=dict(color='rgba(0,0,0,0)')),
-        showlegend=False,
-        hoverinfo='text',  # Set hoverinfo to include text
-    )
-    # Extracting Pokémon data for hover text
-    hover_text = []
-    for dtype in locals()[Stats].index[1:]:
-        pokemon_list = pokedata.loc[pokedata['DTYPES'] == dtype, 'POKEMON'].tolist()
-        hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
-    trace.hovertext = hover_text  # Assigning hover text to the trace
-    data.append(trace)
-
-layout = go.Layout(
-    title=f'Total {Stats} for each Types in Jroose Tier List',
-    title_x=0.25,
-    xaxis=dict(
-        title='DTYPES',
-        tickangle=45,
-        tickfont=dict(
-            size=10
-        )
-    ),
-    yaxis=dict(
-        title=Stats
-    ),
-    barmode='overlay'
-)
-
-fig = go.Figure(data=data, layout=layout)
-st.plotly_chart(fig)
+# Show plot
+st.pyplot(fig)

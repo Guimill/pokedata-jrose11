@@ -22,20 +22,21 @@ st.set_page_config(
         page_title="Pokedata Jroose",
         page_icon="🎮")
 
-st.write("# Welcome to Pokedata Jroose 11 by Milleret Guillaume ! 👋")
+st.write("# Welcome to Pokedata Jroose 11 ! 👋")
 
 st.markdown(
         """
 
-        This webapp is design to give interpretetions and interactivness on the binding beetween Jroose11 runs and the datas from pokemon gen 1
+        This webapp is design to give interpretetions and interactivness on the binding beetween [Jroose11](https://www.youtube.com/@Jrose11) runs and the datas from pokemon gen 1
 
         I hope you'll find it usefull and fun !
 
-        I want to thank Jroose11 for it's work and all people that work or have been working on sites that provides pokedatas, especially Bulbapedia, Pokepédia and Westwood : https://github.com/EverOddish/Westwood.
+        I want to thank [Jroose11](https://www.youtube.com/@Jrose11) for it's work and all people that work or have been working on sites that provides pokedatas, especially Bulbapedia, Pokepédia and Westwood : https://github.com/EverOddish/Westwood.
         And also, all people that work for the libraries that I used.
 
         Enjoy !
 
         """)
 
-st.sidebar.success("Contact")
+st.success("By Milleret Guillaume : [Github](https://github.com/Guimill), [Linkedin](https://www.linkedin.com/in/guillaume-milleret/), Mail: guillaume.milleret@gmail.com")
+
