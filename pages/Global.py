@@ -2,6 +2,9 @@ import plotly.graph_objects as go
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
+import plotly.io as pio
+import numpy as np
+import plotly.express as px
 
 st.set_page_config(
         page_title="Global",
@@ -43,7 +46,7 @@ labels_used = set()  # Set to keep track of used labels
 lowest_position_pokemon = pokedata.sort_values('POSITION').groupby('TIERS').first()
 
 
-fig, ax = plt.subplots(figsize=(12, 8))  # Specify the figure size here
+rank, ax = plt.subplots(figsize=(12, 8))  # Specify the figure size here
 
 # Iterate over each row in the filtered DataFrame
 for index, row in lowest_position_pokemon.iterrows():
@@ -81,5 +84,47 @@ ax.set_title('Best type for each tiers')
 # Show legend
 ax.legend()
 
-# Show plot
-st.pyplot(fig)
+pokestat_position = pokedata
+pokestat_position = pokestat_position.drop(pokestat_position.columns[1:11], axis =1)
+pokestat_position = pokestat_position.drop(pokestat_position.columns[9:], axis =1)
+pokestat_position = pokestat_position.drop(pokestat_position.columns[6:8], axis =1)
+
+
+pokestat_TIERS = pokedata
+pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[0:7], axis =1)
+pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[1:4], axis =1)
+pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[9:], axis =1)
+pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[6:8], axis =1)
+
+# Compute the correlation matrix
+corr_position = pokestat_position.corr()
+corr_TIERS = pokestat_TIERS.corr()
+
+# Generate a mask for the upper triangle
+mask = np.triu(np.ones_like(corr_position, dtype=bool))
+
+# Set up the matplotlib figure
+fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+
+heatmap_Pos = go.Heatmap(
+    z=corr_position.mask(mask),
+    x=corr_position.columns,
+    y=corr_position.columns,
+    colorscale=px.colors.diverging.RdBu,
+    zmin=-1,
+    zmax=1
+)
+
+heatmap_Tiers = go.Heatmap(
+    z=corr_TIERS.mask(mask),
+    x=corr_TIERS.columns,
+    y=corr_TIERS.columns,
+    colorscale=px.colors.diverging.RdBu,
+    zmin=-1,
+    zmax=1
+)
+
+
+st.pyplot(rank)
+st.pyplot(heatmap_Pos)
+st.pyplot(heatmap_Tiers)
