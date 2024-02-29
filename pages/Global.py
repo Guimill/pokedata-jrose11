@@ -9,6 +9,7 @@ import plotly.express as px
 st.set_page_config(
         page_title="Global",
         page_icon="🌍",
+        layout="wide"
     )
 
 #palette
@@ -85,7 +86,7 @@ ax.set_title('Best type for each tiers')
 ax.legend()
 
 # Compute the correlation matrix
-pokedata_heatmap = pokedata.loc[:, ['POSITION', 'TIERS', 'SUM_LS_MOVES', 'SUM_TM_MOVES', 'LEN_POKEMON', 'LEVEL', 'HP', 'ATT', 'DEF', 'SPD', 'SPE', 'BULK', 'TOT']]
+pokedata_heatmap = pokedata.loc[:, ['POSITION', 'TIERS', 'SUM_LS_MOVES', 'SUM_TM_MOVES', 'LEVEL', 'HP', 'ATT', 'DEF', 'SPD', 'SPE', 'BULK', 'TOT']]
 pokedata_heatmap = pokedata_heatmap.replace(',', '.', regex=True)
 
 # Compute the correlation matrix
@@ -98,13 +99,24 @@ mask_heatmap = np.triu(np.ones_like(corr_pokedata, dtype=bool))
 
 fig_heatmap = px.imshow(
     corr_pokedata.mask(mask_heatmap).values,
-    labels=dict(x="Position and tiers", y="Stats"),  # Set labels for x and y axes
     x=corr_pokedata.index,
     y=corr_pokedata.columns,
     color_continuous_scale=px.colors.diverging.RdBu,
     zmin=-1,
     zmax=1,
-    title="Which stats are the most related to the position and tiers",
+)
+
+
+fig_heatmap.update_layout(
+    width=1280,  # Adjust the width of the plot
+    height=720,  # Adjust the height of the plot
+    title={
+        'text': "Which stats are the most related to the position and tiers",
+        'x': 0.5,  # Set title's x position to center
+        'xanchor': 'center',  # Anchor title to the center
+        'font': {'size': 30}
+    },
+    margin=dict(t=150)
 )
 
 # Show the figures

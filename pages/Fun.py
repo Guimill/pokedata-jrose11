@@ -72,16 +72,22 @@ for index, row in pokename_sorted.iterrows():
         fig.add_trace(scat)
 
 # Add linear regression line
-fig.add_trace(go.Scatter(x=pokedata['POSITION'], y=model.predict(), mode='lines', name='Linear Regression', line=dict(color='black')))
+fig.add_trace(go.Scatter(x=pokedata['POSITION'], y=model.predict(), mode='lines', name='Linear Regression', line=dict(color='red')))
 
 # Update layout
 fig.update_layout(
-    title='Scatter Plot of Pokemon Length vs. Position',
     xaxis=dict(title='Position'),
-    yaxis=dict(title='Length of Pokemon'),
+    yaxis=dict(title='Length of Pokemon\'s names'),
     legend=dict(title='Types'),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
+    title={
+        'text': "Scatter Plot of Pokemon Length vs. Position",
+        'x': 0.5,  # Set title's x position to center
+        'xanchor': 'center',  # Anchor title to the center
+        'font': {'size': 30}
+    },
+    margin=dict(t=100)
 )
 
 # Show plot
