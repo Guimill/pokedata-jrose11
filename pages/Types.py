@@ -5,6 +5,7 @@ import streamlit as st
 st.set_page_config(
         page_title="Types",
         page_icon="💧",
+        layout="wide"
     )
 
 #palette
@@ -121,19 +122,25 @@ for i, stat_value in enumerate([locals()[Stats_2].values[1:]]):
     data.append(trace)
 
 layout = go.Layout(
-    title=f'Total {Stats} for each Types in Jroose Tier List',
-    title_x=0.25,
     xaxis=dict(
         title='DTYPES',
         tickangle=45,
-        tickfont=dict(
-            size=10
-        )
-    ),
+        tickfont=dict(size=15),
+        titlefont=dict(size=25)),
     yaxis=dict(
-        title=Stats
-    ),
-    barmode='overlay'
+        title=Stats,
+        tickfont=dict(size=25),
+        titlefont=dict(size=25)),
+    barmode='overlay',
+    title={
+        'text': f'Total {Stats} for each Types in Jroose Tier List',
+        'x': 0.5,  # Set title's x position to center
+        'xanchor': 'center',  # Anchor title to the center
+        'font': {'size': 30}
+    },
+    margin=dict(t=100),
+    width=1280,  # Adjust the width of the plot
+    height=720,  # Adjust the height of the plot
 )
 
 fig = go.Figure(data=data, layout=layout)

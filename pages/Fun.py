@@ -76,8 +76,12 @@ fig.add_trace(go.Scatter(x=pokedata['POSITION'], y=model.predict(), mode='lines'
 
 # Update layout
 fig.update_layout(
-    xaxis=dict(title='Position'),
-    yaxis=dict(title='Length of Pokemon\'s names'),
+    xaxis=dict(title='Position',
+        tickfont=dict(size=20),
+        titlefont=dict(size=25)),
+    yaxis=dict(title='Length of Pokemon\'s names',
+        tickfont=dict(size=20),
+        titlefont=dict(size=25)),
     legend=dict(title='Types'),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot

@@ -1,12 +1,18 @@
-import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
+import numpy as np
+import plotly.express as px
+import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.graph_objects as go
+import statsmodels.api as sm
+
 
 
 st.set_page_config(
         page_title="Position",
         page_icon="🔝",
+        layout="wide"
     )
 
 #palette
@@ -38,47 +44,52 @@ for column in att_moves.columns:
 for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
+Stats = st.radio("Choose the Stats you'd like to display :",
+                     ["HP","ATT","DEF","SPD","SPE","BULK"],
+                     horizontal = True)
 
-labels_used = set()
-
-# Create a figure with 2x3 subplots
-fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
-axes = axes.flatten()
-
-attributes = ['BULK', 'ATT', 'DEF', 'SPD', 'SPE', 'HP']
-
-for i, attribute in enumerate(attributes):
-    # Sort data by the current attribute
-    pokedata_sorted = pokedata.sort_values(by=attribute)
-
-    for index, row in pokedata_sorted.iterrows():
-        avg_value = row[attribute]
-        dtypes = row['DTYPES']
-        colordt = dt_type_pal_new_double.get(dtypes)[0]
-        markerfacecoloraltdt = dt_type_pal_new_double.get(dtypes)[1]
-        if dtypes not in labels_used:
-            axes[i].plot(row['POSITION'], avg_value, c=colordt, markerfacecoloralt=markerfacecoloraltdt,
-                         marker='.', markeredgecolor='none', linestyle='', markersize=15, fillstyle='left', label=dtypes)
-            labels_used.add(dtypes)
-        else:
-            axes[i].plot(row['POSITION'], avg_value, c=colordt, markerfacecoloralt=markerfacecoloraltdt,
-                         marker='.', markeredgecolor='none', linestyle='', markersize=15, fillstyle='left')
-
-    # Adding linear regression line
-    sns.regplot(x=pokedata_sorted['POSITION'], y=pokedata_sorted[attribute],
-                scatter=False, color='black', ax=axes[i])
-
-    axes[i].set_xlabel('')
-    axes[i].set_ylabel(attribute)
-
-# Adjust layout
-plt.tight_layout()
-
-# Place the legend outside the subplots
-plt.suptitle('Statistics impact on POSITION 1-84', x = 0.5, y = 1.05, fontsize=16)
-fig.legend(loc='lower center', bbox_to_anchor=(0.5, -0.2), fontsize=10, ncol=6, title="Legend")
+data = []
 
 
+pokename_sorted = pokedata.sort_values(by=locals()[Stats])
+legend_labels = set()
+
+fig = go.Figure()
+
+# Add scatter trace for each row
+for index, row in pokename_sorted.iterrows():
+    value = row[locals()[Stats]]
+    dtypes = row['DTYPES']
+    colordt_left = dt_type_pal_new_double.get(dtypes)[0]
+    colordt_right = dt_type_pal_new_double.get(dtypes)[1]
+    if dtypes not in legend_labels:
+        scat = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=pokemon_name)
+        fig.add_trace(scat)
+        legend_labels.add(dtypes)
+    else:
+        scat = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, text=pokemon_name)
+        fig.add_trace(scat)
+
+
+# Update layout
+fig.update_layout(
+    xaxis=dict(title='Position',
+        tickfont=dict(size=20),
+        titlefont=dict(size=25)),
+    yaxis=dict(title='Length of Pokemon\'s names',
+        tickfont=dict(size=20),
+        titlefont=dict(size=25)),
+    legend=dict(title='Types'),
+    width=1280,  # Adjust the width of the plot
+    height=720,  # Adjust the height of the plot
+    title={
+        'text': "Scatter Plot of Pokemon Length vs. Position",
+        'x': 0.5,  # Set title's x position to center
+        'xanchor': 'center',  # Anchor title to the center
+        'font': {'size': 30}
+    },
+    margin=dict(t=100)
+)
 
 # Show plot
-st.pyplot(fig)
+st.plotly_chart(fig)

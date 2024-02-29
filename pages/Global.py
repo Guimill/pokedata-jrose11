@@ -108,6 +108,10 @@ fig_heatmap = px.imshow(
 
 
 fig_heatmap.update_layout(
+    yaxis=dict(
+        tickfont=dict(size=15)),
+    xaxis=dict(
+        tickfont=dict(size=15)),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
     title={
@@ -116,7 +120,7 @@ fig_heatmap.update_layout(
         'xanchor': 'center',  # Anchor title to the center
         'font': {'size': 30}
     },
-    margin=dict(t=150)
+    margin=dict(t=100)
 )
 
 # Show the figures
