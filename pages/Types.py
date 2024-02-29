@@ -37,50 +37,19 @@ for column in att_moves.columns:
 for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
-
-#Stat preparation
-
-# Grouping by DTYPES and calculating mean of HP
-HP = pokedata.groupby('DTYPES')['HP'].mean().sort_values()
-HP_2 = HP / 2
-
-# Grouping by DTYPES and calculating mean of ATT
-ATT = pokedata.groupby('DTYPES')['ATT'].mean().sort_values()
-ATT_2 = ATT / 2
-
-# Grouping by DTYPES and calculating mean of DEF
-DEF = pokedata.groupby('DTYPES')['DEF'].mean().sort_values()
-DEF_2 = DEF / 2
-
-# Grouping by DTYPES and calculating mean of SPD
-SPD = pokedata.groupby('DTYPES')['SPD'].mean().sort_values()
-SPD_2 = SPD / 2
-
-# Grouping by DTYPES and calculating mean of SPE
-SPE = pokedata.groupby('DTYPES')['SPE'].mean().sort_values()
-SPE_2 = SPE / 2
-
-# Grouping by DTYPES and calculating mean of TOT
-TOT = pokedata.groupby('DTYPES')['TOT'].mean().sort_values()
-TOT_2 = TOT / 2
-
-# Grouping by DTYPES and calculating mean of BULK
-BULK = pokedata.groupby('DTYPES')['BULK'].mean().sort_values()
-BULK_2 = BULK / 2
-
-
 #UI preparation
 
 Stats = st.radio("Choose the Stats you'd like to display :",
-                     ["HP","ATT","DEF","SPD","SPE","TOT","BULK"],
+                     ["HP","ATT","DEF","SPD","SPE","TOT","BULK","LEVEL"],
                      horizontal = True)
 
-Stats_2 = Stats + '_2'
+Stats = pokedata.groupby('DTYPES')[Stats].mean().sort_values()
+Stats_2 = Stats / 2
 
 #Ploting
 
 # Defining colors based on dt_type_pal_new_double palette
-colors = {key: dt_type_pal_new_double.get(key, ['blue', 'green']) for key in locals()[Stats].index}
+colors = {key: dt_type_pal_new_double.get(key, ['blue', 'green']) for key in Stats.index}
 
 pokemon_counts = pokedata['DTYPES'].value_counts()
 
@@ -88,34 +57,34 @@ data = []
 
 # Adding text annotation to the first bar only
 trace = go.Bar(
-    x=locals()[Stats].index,
-    y=locals()[Stats].values,
-    marker=dict(color=[colors[key][0] for key in locals()[Stats].index], line=dict(color='rgba(0,0,0,0)')),
+    x=Stats.index,
+    y=Stats.values,
+    marker=dict(color=[colors[key][0] for key in Stats.index], line=dict(color='rgba(0,0,0,0)')),
     showlegend=False,
     hoverinfo='text',  # Set hoverinfo to include text
-    text=pokemon_counts[locals()[Stats].index],  # Add text annotation with Pokémon counts
+    text=pokemon_counts[Stats.index],  # Add text annotation with Pokémon counts
     textposition='outside',  # Set position of text annotation
 )
 # Extracting Pokémon data for hover text
 hover_text = []
-for dtype in locals()[Stats].index:
+for dtype in Stats.index:
     pokemon_list = pokedata.loc[pokedata['DTYPES'] == dtype, 'POKEMON'].tolist()
     hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
 trace.hovertext = hover_text  # Assigning hover text to the trace
 data.append(trace)
 
 # Adding other bars without text annotation
-for i, stat_value in enumerate([locals()[Stats_2].values[1:]]):
+for i, stat_value in enumerate([Stats_2.values[1:]]):
     trace = go.Bar(
-        x=locals()[Stats].index[1:],
+        x=Stats.index[1:],
         y=stat_value,
-        marker=dict(color=[colors[key][i + 1] for key in locals()[Stats].index[1:]], line=dict(color='rgba(0,0,0,0)')),
+        marker=dict(color=[colors[key][i + 1] for key in Stats.index[1:]], line=dict(color='rgba(0,0,0,0)')),
         showlegend=False,
         hoverinfo='text',  # Set hoverinfo to include text
     )
     # Extracting Pokémon data for hover text
     hover_text = []
-    for dtype in locals()[Stats].index[1:]:
+    for dtype in Stats.index[1:]:
         pokemon_list = pokedata.loc[pokedata['DTYPES'] == dtype, 'POKEMON'].tolist()
         hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
     trace.hovertext = hover_text  # Assigning hover text to the trace
@@ -128,12 +97,12 @@ layout = go.Layout(
         tickfont=dict(size=15),
         titlefont=dict(size=25)),
     yaxis=dict(
-        title=Stats,
+        title=f'Mean {Stats.name}',
         tickfont=dict(size=25),
         titlefont=dict(size=25)),
     barmode='overlay',
     title={
-        'text': f'Total {Stats} for each Types in Jroose Tier List',
+        'text': f'Total {Stats.name} for each Types in Jroose Tier List',
         'x': 0.5,  # Set title's x position to center
         'xanchor': 'center',  # Anchor title to the center
         'font': {'size': 30}
