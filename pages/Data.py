@@ -43,8 +43,8 @@ for column in STATUS_MOVES.columns:
 for column in JROOSE11.columns:
     JROOSE11[column].fillna(replace_values.get(str(JROOSE11[column].dtype), ''), inplace=True)
 
-data = st.radio("Choose the dataframe you'd like to display :",
-                     ["JROOSE11","POKEDATA","ATT_MOVES","STATUS_MOVES","POKEMOVES","OLD_TYPE_PALETTE","NEW_TYPE_PALETTE","NEW_DTYPE_PALETTE","NEW_DTYPE_PALETTE_DOUBLE"],
-                     horizontal = True)
+data = st.selectbox("Here's all the Dataframes that I created for this site, you can see them and even download them freely :",
+                     ("JROOSE11","POKEDATA","ATT_MOVES","STATUS_MOVES","POKEMOVES","OLD_TYPE_PALETTE","NEW_TYPE_PALETTE","NEW_DTYPE_PALETTE","NEW_DTYPE_PALETTE_DOUBLE"),
+                     index=1, placeholder="Select the dataframe you'd like to display...")
 
 st.dataframe(locals()[data])

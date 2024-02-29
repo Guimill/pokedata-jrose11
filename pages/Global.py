@@ -84,47 +84,28 @@ ax.set_title('Best type for each tiers')
 # Show legend
 ax.legend()
 
-pokestat_position = pokedata
-pokestat_position = pokestat_position.drop(pokestat_position.columns[1:11], axis =1)
-pokestat_position = pokestat_position.drop(pokestat_position.columns[9:], axis =1)
-pokestat_position = pokestat_position.drop(pokestat_position.columns[6:8], axis =1)
-
-
-pokestat_TIERS = pokedata
-pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[0:7], axis =1)
-pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[1:4], axis =1)
-pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[9:], axis =1)
-pokestat_TIERS = pokestat_TIERS.drop(pokestat_TIERS.columns[6:8], axis =1)
+# Compute the correlation matrix
+pokedata_heatmap = pokedata.loc[:, ['POSITION', 'TIERS', 'SUM_LS_MOVES', 'SUM_TM_MOVES', 'LEN_POKEMON', 'LEVEL', 'HP', 'ATT', 'DEF', 'SPD', 'SPE', 'BULK', 'TOT']]
+pokedata_heatmap = pokedata_heatmap.replace(',', '.', regex=True)
 
 # Compute the correlation matrix
-corr_position = pokestat_position.corr()
-corr_TIERS = pokestat_TIERS.corr()
+corr_pokedata = pokedata_heatmap.astype(float).corr(method='spearman')
 
 # Generate a mask for the upper triangle
-mask = np.triu(np.ones_like(corr_position, dtype=bool))
+mask_heatmap = np.triu(np.ones_like(corr_pokedata, dtype=bool))
 
 # Set up the matplotlib figure
-fig, axs = plt.subplots(1, 2, figsize=(12, 6))
 
-heatmap_Pos = go.Heatmap(
-    z=corr_position.mask(mask),
-    x=corr_position.columns,
-    y=corr_position.columns,
-    colorscale=px.colors.diverging.RdBu,
+fig_heatmap = px.imshow(
+    corr_pokedata.mask(mask_heatmap).values,
+    labels=dict(x="Position and tiers", y="Stats"),  # Set labels for x and y axes
+    x=corr_pokedata.index,
+    y=corr_pokedata.columns,
+    color_continuous_scale=px.colors.diverging.RdBu,
     zmin=-1,
-    zmax=1
+    zmax=1,
+    title="Which stats are the most related to the position and tiers",
 )
 
-heatmap_Tiers = go.Heatmap(
-    z=corr_TIERS.mask(mask),
-    x=corr_TIERS.columns,
-    y=corr_TIERS.columns,
-    colorscale=px.colors.diverging.RdBu,
-    zmin=-1,
-    zmax=1
-)
-
-
-st.pyplot(rank)
-st.pyplot(heatmap_Pos)
-st.pyplot(heatmap_Tiers)
+# Show the figures
+st.plotly_chart(fig_heatmap)
