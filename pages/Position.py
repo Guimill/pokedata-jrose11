@@ -45,7 +45,7 @@ for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
 Stats = st.radio("Choose the Stats you'd like to display :",
-                     ["HP","ATT","DEF","SPD","SPE","BULK"],
+                     ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL"],
                      horizontal = True)
 
 data = []
@@ -68,12 +68,12 @@ for index, row in pokepos_sorted.iterrows():
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
     if dtypes not in legend_labels_pos:
-        scat = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes)
-        fig_pos.add_trace(scat)
+        scat_pos = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        fig_pos.add_trace(scat_pos)
         legend_labels_pos.add(dtypes)
     else:
-        scat = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False)
-        fig_pos.add_trace(scat)
+        scat_pos = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        fig_pos.add_trace(scat_pos)
 
 
 regression_line = const_pos + slope_pos * pokepos_sorted['POSITION']
@@ -91,7 +91,7 @@ fig_pos.update_layout(
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
     title={
-        'text': "Scatter Plot of Pokemon {Stats} vs. Position",
+        'text': f"Scatter Plot of Pokemon {Stats} vs. Position",
         'x': 0.5,  # Set title's x position to center
         'xanchor': 'center',  # Anchor title to the center
         'font': {'size': 30}
@@ -130,12 +130,12 @@ for index, row in poketiers_sorted.iterrows():
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
     if dtypes not in legend_labels_tiers:
-        scat = go.Scatter(x=[row['TIERS']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes)
-        fig_tiers.add_trace(scat)
+        scat_tiers = go.Scatter(x=[row['TIERS']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        fig_tiers.add_trace(scat_tiers)
         legend_labels_tiers.add(dtypes)
     else:
-        scat = go.Scatter(x=[row['TIERS']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False)
-        fig_tiers.add_trace(scat)
+        scat_tiers = go.Scatter(x=[row['TIERS']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        fig_tiers.add_trace(scat_tiers)
 
 
 regression_line = const_tiers + slope_tiers * poketiers_sorted['TIERS']
@@ -153,7 +153,7 @@ fig_tiers.update_layout(
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
     title={
-        'text': "Scatter Plot of Pokemon {Stats} vs. Tiers",
+        'text': f"Scatter Plot of Pokemon {Stats} vs. Tiers",
         'x': 0.5,  # Set title's x position to center
         'xanchor': 'center',  # Anchor title to the center
         'font': {'size': 30}
