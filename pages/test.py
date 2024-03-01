@@ -1,15 +1,15 @@
-import plotly.graph_objects as go
 import pandas as pd
-import matplotlib.pyplot as plt
 import streamlit as st
-import plotly.io as pio
 import numpy as np
 import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.graph_objects as go
+import statsmodels.api as sm
 
 st.set_page_config(
-        page_title="Global",
-        page_icon="🌍",
-        layout="wide"
+        page_title="Moves",
+        page_icon="💥",
     )
 
 #palette
@@ -41,87 +41,10 @@ for column in att_moves.columns:
 for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
-labels_used = set()  # Set to keep track of used labels
+Stats = st.radio("Choose the Stats you'd like to display :",
+                         ["STRENGTH", "MEAN_STRENGTH", "MEDIAN_STRENGTH", "ACCURACY", "MEAN_ACCURACY", "MEDIAN_ACCURACY"],
+                         horizontal=True)
 
-# Filter DataFrame to keep only the lowest position Pokémon for each tier
-lowest_position_pokemon = pokedata.sort_values('POSITION').groupby('TIERS').first()
+Stats = Stats.replace("MEAN_", "").replace("MEDIAN_","")
 
-
-rank, ax = plt.subplots(figsize=(12, 8))  # Specify the figure size here
-
-# Iterate over each row in the filtered DataFrame
-for index, row in lowest_position_pokemon.iterrows():
-    pokemon = row['POKEMON']
-    tier = index
-    dtypes = row['DTYPES']
-    position = row['POSITION']
-    
-    # Fetching color and markerfacecoloralt based on dtypes
-    colordt, markerfacecoloraltdt = dt_type_pal_new_double.get(dtypes, ('black', 'white'))
-    
-    # Plotting the point
-    if dtypes not in labels_used:
-        plt.plot(position, tier, c=colordt, markerfacecoloralt=markerfacecoloraltdt,
-                 marker='.', markeredgecolor='none', linestyle='', markersize=15, fillstyle='left', label=dtypes)
-        labels_used.add(dtypes)
-    else:
-        plt.plot(position, tier, c=colordt, markerfacecoloralt=markerfacecoloraltdt,
-                 marker='.', markeredgecolor='none', linestyle='', markersize=15, fillstyle='left')
-
-
-# Adding labels and title
-yticks = pd.unique(pokedata['TRUE_TIERS'])
-yticks_num = pd.unique(pokedata['TIERS'])
-yticks_mapped = zip(yticks_num, yticks)
-yticks_mapping = {num: label for num, label in zip(yticks_num, yticks)}
-
-ax.set_yticks(list(yticks_mapping.keys()))
-ax.set_yticklabels(list(yticks_mapping.values()))
-
-ax.set_xlabel('Position')
-ax.set_ylabel('TIERS')
-ax.set_title('Best type for each tiers')
-
-# Show legend
-ax.legend()
-
-# Compute the correlation matrix
-pokedata_heatmap = pokedata.loc[:, ['POSITION', 'TIERS', 'SUM_LS_MOVES', 'SUM_TM_MOVES', 'LEVEL', 'HP', 'ATT', 'DEF', 'SPD', 'SPE', 'BULK', 'TOT']]
-pokedata_heatmap = pokedata_heatmap.replace(',', '.', regex=True)
-
-# Compute the correlation matrix
-corr_pokedata = pokedata_heatmap.astype(float).corr(method='spearman')
-
-# Generate a mask for the upper triangle
-mask_heatmap = np.triu(np.ones_like(corr_pokedata, dtype=bool))
-
-# Set up the matplotlib figure
-
-fig_heatmap = px.imshow(
-    corr_pokedata.mask(mask_heatmap).values,
-    x=corr_pokedata.index,
-    y=corr_pokedata.columns,
-    color_continuous_scale=px.colors.diverging.RdBu,
-    zmin=-1,
-    zmax=1,
-)
-
-
-fig_heatmap.update_layout(
-    yaxis=dict(
-        tickfont=dict(size=15)),
-    xaxis=dict(
-        tickfont=dict(size=15)),
-    width=1280,  # Adjust the width of the plot
-    height=720,  # Adjust the height of the plot
-    title={
-        'text': "Which stats are the most related to each others",
-        'x': 0.5,  # Set title's x position to center
-        'xanchor': 'center',  # Anchor title to the center
-        'font': {'size': 30}
-    },
-    margin=dict(t=100)
-)
-
-# Show the figures
-st.plotly_chart(fig_heatmap)
+st.write(Stats)
