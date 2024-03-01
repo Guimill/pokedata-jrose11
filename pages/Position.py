@@ -74,8 +74,19 @@ for index, row in pokepos_sorted.iterrows():
         fig_pos.add_trace(scat_pos)
 
 
-regression_line = const_pos + slope_pos * pokepos_sorted['POSITION']
-fig_pos.add_trace(go.Scatter(x=pokepos_sorted['POSITION'], y=regression_line, mode='lines', name='Linear Regression', line=dict(color='red')))
+regression_line_pos = const_pos + slope_pos * pokepos_sorted['POSITION']
+
+# Calculate the residuals (difference between actual values and predicted values)
+residuals_pos = pokepos_sorted[Stats] - regression_line_pos
+
+# Calculate the standard deviation of the residuals
+std_dev_pos = np.std(residuals_pos)
+
+# Calculate upper and lower bounds
+upper_bound_tiers = regression_line_pos + std_dev_pos
+lower_bound_tiers = regression_line_pos - std_dev_pos
+
+fig_pos.add_trace(go.Scatter(x=pokepos_sorted['POSITION'], y=regression_line_pos, mode='lines', name='Linear Regression', line=dict(color='red')))
 
 # Update layout
 fig_pos.update_layout(

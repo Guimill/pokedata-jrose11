@@ -125,3 +125,22 @@ fig_heatmap.update_layout(
 
 # Show the figures
 st.plotly_chart(fig_heatmap)
+
+st.markdown("""How to read this plot :
+            
+        The test used here is a spearman test.
+            
+        The range of the score is -1 to 1.
+            
+        When the result is -1 it means that there is a negative correlation between both variables
+            for exemple the more TOT stats a pokemon have, the less his position will be.
+
+        When the result is 1 it means that there is a positive correlation between both variables
+            for exemple the less leveled is a pokemon, the less his position will be.
+            
+        Finally a score around 0 means that there's no apparent correlation between the variables.
+            """)
+
+lowest_position_pokemon = pokedata.sort_values('POSITION').groupby('TIERS').first()
+
+st.dataframe(lowest_position_pokemon)
