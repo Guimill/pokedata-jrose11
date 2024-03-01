@@ -48,6 +48,8 @@ Stats = st.radio("Choose the Stats you'd like to display :",
 
 Stats_without_prefixe = Stats.replace("MEAN ", "").replace("MEDIAN ","").replace(" SUM","")
 
+moves_counts = att_moves['TYPE'].value_counts()
+
 fig = go.Figure()
 
 pokemoves_ATT_sorted = att_moves.sort_values(by='TYPE')
@@ -86,7 +88,14 @@ else:
 
 # Adding bar traces to the Plotly figure
 sorted_df = pd.DataFrame({'Type': Stats_type_labels, 'Value': Stats_values}).sort_values(by='Value', ascending=False)
-fig.add_trace(go.Bar(x=sorted_df['Type'], y=sorted_df['Value'], marker_color=[type_pal_new[label] for label in sorted_df['Type']]))
+
+fig.add_trace(go.Bar(
+    x=sorted_df['Type'],
+    y=sorted_df['Value'],
+    marker_color=[type_pal_new[label] for label in sorted_df['Type']],
+    text=moves_counts[sorted_df['Type']],
+    textposition='outside'))
+
 
 # Updating layout
 fig.update_layout(

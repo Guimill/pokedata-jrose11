@@ -45,6 +45,10 @@ Stats = st.radio("Choose the Stats you'd like to display :",
                          ["STRENGTH", "MEAN_STRENGTH", "MEDIAN_STRENGTH", "ACCURACY", "MEAN_ACCURACY", "MEDIAN_ACCURACY"],
                          horizontal=True)
 
-Stats = Stats.replace("MEAN_", "").replace("MEDIAN_","")
+Stats_without_prefixe = Stats.replace("MEAN ", "").replace("MEDIAN ","").replace(" SUM","")
 
-st.write(Stats)
+Stats_sorted = att_moves.groupby('TYPE')[Stats_without_prefixe].mean().sort_values()
+
+moves_counts = att_moves['TYPE'].value_counts()
+
+st.write(Stats_sorted)

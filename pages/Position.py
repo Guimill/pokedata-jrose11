@@ -48,8 +48,6 @@ Stats = st.radio("Choose the Stats you'd like to display :",
                      ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL"],
                      horizontal = True)
 
-data = []
-
 pokepos_sorted = pokedata.sort_values(by=Stats)
 legend_labels_pos = set()
 
@@ -110,8 +108,6 @@ fig_pos.update_layout(
 # Show plot
 st.plotly_chart(fig_pos)
 
-data = []
-
 poketiers_sorted = pokedata.sort_values(by=Stats)
 legend_labels_tiers = set()
 
@@ -138,8 +134,8 @@ for index, row in poketiers_sorted.iterrows():
         fig_tiers.add_trace(scat_tiers)
 
 
-regression_line = const_tiers + slope_tiers * poketiers_sorted['TIERS']
-fig_tiers.add_trace(go.Scatter(x=poketiers_sorted['TIERS'], y=regression_line, mode='lines', name='Linear Regression', line=dict(color='red')))
+regression_line_tiers = const_tiers + slope_tiers * poketiers_sorted['TIERS']
+fig_tiers.add_trace(go.Scatter(x=poketiers_sorted['TIERS'], y=regression_line_tiers, mode='lines', name='Linear Regression', line=dict(color='red')))
 
 # Update layout
 fig_tiers.update_layout(
@@ -171,3 +167,63 @@ fig_tiers.update_layout(
 
 # Show plot
 st.plotly_chart(fig_tiers)
+
+pokeTime_sorted = pokedata.sort_values(by=Stats)
+legend_labels_Time = set()
+
+X_Time = sm.add_constant(pokeTime_sorted['TIME'])  
+model_Time = sm.OLS(pokeTime_sorted[Stats], X_Time).fit()
+const_Time, slope_Time = model_Time.params
+
+spearman_corr = pokeTime_sorted[['TIME', Stats]].corr(method='spearman').iloc[0, 1]
+
+fig_time = go.Figure()
+
+# Add scatter trace for each row
+for index, row in pokeTime_sorted.iterrows():
+    value = row[Stats]
+    dtypes = row['DTYPES']
+    colordt_left = dt_type_pal_new_double.get(dtypes)[0]
+    colordt_right = dt_type_pal_new_double.get(dtypes)[1]
+    if dtypes not in legend_labels_tiers:
+        scat_Time = go.Scatter(x=[row['TIME']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        fig_time.add_trace(scat_Time)
+        legend_labels_tiers.add(dtypes)
+    else:
+        scat_Time = go.Scatter(x=[row['TIME']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        fig_time.add_trace(scat_Time)
+
+
+regression_line_time = const_Time + slope_Time * pokeTime_sorted['TIME']
+fig_time.add_trace(go.Scatter(x=pokeTime_sorted['TIME'], y=regression_line_time, mode='lines', name='Linear Regression', line=dict(color='red')))
+
+# Update layout
+fig_time.update_layout(
+    xaxis=dict(title="Tiers",
+        tickfont=dict(size=20),
+        titlefont=dict(size=25)),
+    yaxis=dict(title=Stats,
+        tickfont=dict(size=20),
+        titlefont=dict(size=25)),
+    legend=dict(title='Types'),
+    width=1280,  # Adjust the width of the plot
+    height=720,  # Adjust the height of the plot
+    title={
+        'text': f"Scatter Plot of Pokemon {Stats} vs. Time",
+        'x': 0.5,  # Set title's x position to center
+        'xanchor': 'center',  # Anchor title to the center
+        'font': {'size': 30}
+    },
+    margin=dict(t=100),
+    annotations=[dict(
+        text=f"Spearman Correlation: {spearman_corr * -100:.2f}%",
+        x=0.95, y=0.95,
+        xref="paper", yref="paper",
+        showarrow=False,
+        font=dict(color="black", size=12),
+        bgcolor="#19c37d", opacity=0.8
+    )],
+)
+
+# Show plot
+st.plotly_chart(fig_time)
