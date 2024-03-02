@@ -41,10 +41,23 @@ for column in att_moves.columns:
 for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
+data_option = st.selectbox("Select from these dataframes :",
+                     ("FULL","Without Mewtwo","Without Mewtwo and the KO's","Without the KO's"),
+                     index=0, placeholder="Select the dataframe you'd like to use...")
+
+if data_option == "FULL":
+    data = pokedata.copy()  # If you want to use the full DataFrame
+elif data_option == "Without Mewtwo":
+    data = pokedata.iloc[1:].copy()  # Excluding the first row
+elif data_option == "Without Mewtwo and the KO's":
+    data = pokedata.iloc[1:-3].copy()  # Excluding the first row and the last three rows
+elif data_option == "Without the KO's":
+    data = pokedata.iloc[:-3].copy() 
+
 labels_used = set()  # Set to keep track of used labels
 
 # Filter DataFrame to keep only the lowest position Pokémon for each tier
-lowest_position_pokemon = pokedata.sort_values('POSITION').groupby('TIERS').first()
+lowest_position_pokemon = data.sort_values('POSITION').groupby('TIERS').first()
 
 
 rank, ax = plt.subplots(figsize=(12, 8))  # Specify the figure size here
@@ -70,8 +83,8 @@ for index, row in lowest_position_pokemon.iterrows():
 
 
 # Adding labels and title
-yticks = pd.unique(pokedata['TRUE_TIERS'])
-yticks_num = pd.unique(pokedata['TIERS'])
+yticks = pd.unique(data['TRUE_TIERS'])
+yticks_num = pd.unique(data['TIERS'])
 yticks_mapped = zip(yticks_num, yticks)
 yticks_mapping = {num: label for num, label in zip(yticks_num, yticks)}
 
@@ -86,21 +99,21 @@ ax.set_title('Best type for each tiers')
 ax.legend()
 
 # Compute the correlation matrix
-pokedata_heatmap = pokedata.loc[:, ['POSITION', 'TIERS', 'SUM_LS_MOVES', 'SUM_TM_MOVES', 'LEVEL', 'HP', 'ATT', 'DEF', 'SPD', 'SPE', 'BULK', 'TOT']]
-pokedata_heatmap = pokedata_heatmap.replace(',', '.', regex=True)
+data_heatmap = data.loc[:, ['POSITION', 'TIERS', 'SUM_LS_MOVES', 'SUM_TM_MOVES', 'LEVEL', 'HP', 'ATT', 'DEF', 'SPD', 'SPE', 'BULK', 'TOT']]
+data_heatmap = data_heatmap.replace(',', '.', regex=True)
 
 # Compute the correlation matrix
-corr_pokedata = pokedata_heatmap.astype(float).corr(method='spearman')
+corr_data = data_heatmap.astype(float).corr(method='spearman')
 
 # Generate a mask for the upper triangle
-mask_heatmap = np.triu(np.ones_like(corr_pokedata, dtype=bool))
+mask_heatmap = np.triu(np.ones_like(corr_data, dtype=bool))
 
 # Set up the matplotlib figure
 
 fig_heatmap = px.imshow(
-    corr_pokedata.mask(mask_heatmap).values,
-    x=corr_pokedata.index,
-    y=corr_pokedata.columns,
+    corr_data.mask(mask_heatmap).values,
+    x=corr_data.index,
+    y=corr_data.columns,
     color_continuous_scale=px.colors.diverging.RdBu,
     zmin=-1,
     zmax=1,
@@ -141,6 +154,6 @@ st.markdown("""How to read this plot :
         Finally a score around 0 means that there's no apparent correlation between the variables.
             """)
 
-lowest_position_pokemon = pokedata.sort_values('POSITION').groupby('TIERS').first()
+lowest_position_pokemon = data.sort_values('POSITION').groupby('TIERS').first()
 
 st.dataframe(lowest_position_pokemon)

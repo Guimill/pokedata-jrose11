@@ -44,17 +44,32 @@ for column in att_moves.columns:
 for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
+data_option = st.selectbox("Select from these dataframes :",
+                     ("FULL","Without Mewtwo","Without Mewtwo and the KO's","Without the KO's"),
+                     index=0, placeholder="Select the dataframe you'd like to use...")
+
+if data_option == "FULL":
+    data = pokedata.copy()  # If you want to use the full DataFrame
+elif data_option == "Without Mewtwo":
+    data = pokedata.iloc[1:].copy()  # Excluding the first row
+elif data_option == "Without Mewtwo and the KO's":
+    data = pokedata.iloc[1:-3].copy()  # Excluding the first row and the last three rows
+elif data_option == "Without the KO's":
+    data = pokedata.iloc[:-3].copy() 
+
 fig = go.Figure()
 
-pokename_sorted = pokedata.sort_values(by='LEN_POKEMON')
+pokename_sorted = data.sort_values(by='LEN_POKEMON')
 legend_labels = set()
 
 # Your existing code for data preparation and scatter plot creation
 
 # Fit linear regression
-X = sm.add_constant(pokedata['POSITION'])  # Add a constant to the predictor
-model = sm.OLS(pokedata['LEN_POKEMON'], X).fit()
+X = sm.add_constant(data['POSITION'])  # Add a constant to the predictor
+model = sm.OLS(data['LEN_POKEMON'], X).fit()
 const, slope = model.params
+
+spearman_corr = pokename_sorted[['LEN_POKEMON', 'POSITION']].corr(method='spearman').iloc[0, 1]
 
 # Add scatter trace for each row
 for index, row in pokename_sorted.iterrows():
@@ -72,7 +87,7 @@ for index, row in pokename_sorted.iterrows():
         fig.add_trace(scat)
 
 # Add linear regression line
-fig.add_trace(go.Scatter(x=pokedata['POSITION'], y=model.predict(), mode='lines', name='Linear Regression', line=dict(color='red')))
+fig.add_trace(go.Scatter(x=data['POSITION'], y=model.predict(), mode='lines', name='Linear Regression', line=dict(color='red')))
 
 # Update layout
 fig.update_layout(
@@ -91,7 +106,15 @@ fig.update_layout(
         'xanchor': 'center',  # Anchor title to the center
         'font': {'size': 30}
     },
-    margin=dict(t=100)
+    margin=dict(t=100),
+    annotations=[dict(
+        text=f"Spearman Correlation: {spearman_corr * -100:.2f}%",
+        x=0.95, y=0.95,
+        xref="paper", yref="paper",
+        showarrow=False,
+        font=dict(color="black", size=12),
+        bgcolor="#19c37d", opacity=0.8
+    )],
 )
 
 # Show plot

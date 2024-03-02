@@ -44,11 +44,26 @@ for column in att_moves.columns:
 for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
+data_option = st.selectbox("Select from these dataframes :",
+                     ("FULL","Without Mewtwo","Without Mewtwo and the KO's","Without the KO's"),
+                     index=0, placeholder="Select the dataframe you'd like to use...")
+
+if data_option == "FULL":
+    data = pokedata.copy()  # If you want to use the full DataFrame
+elif data_option == "Without Mewtwo":
+    data = pokedata.iloc[1:].copy()  # Excluding the first row
+elif data_option == "Without Mewtwo and the KO's":
+    data = pokedata.iloc[1:-3].copy()  # Excluding the first row and the last three rows
+elif data_option == "Without the KO's":
+    data = pokedata.iloc[:-3].copy()  # Excluding the last three rows
+
+
+
 Stats = st.radio("Choose the Stats you'd like to display :",
                      ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL"],
                      horizontal = True)
 
-pokepos_sorted = pokedata.sort_values(by=Stats)
+pokepos_sorted = data.sort_values(by=Stats)
 legend_labels_pos = set()
 
 X_pos = sm.add_constant(pokepos_sorted['POSITION'])  
@@ -119,7 +134,7 @@ fig_pos.update_layout(
 # Show plot
 st.plotly_chart(fig_pos)
 
-poketiers_sorted = pokedata.sort_values(by=Stats)
+poketiers_sorted = data.sort_values(by=Stats)
 legend_labels_tiers = set()
 
 X_Tiers = sm.add_constant(poketiers_sorted['TIERS'])  
@@ -179,7 +194,7 @@ fig_tiers.update_layout(
 # Show plot
 st.plotly_chart(fig_tiers)
 
-pokeTime_sorted = pokedata.sort_values(by=Stats)
+pokeTime_sorted = data.sort_values(by=Stats)
 legend_labels_Time = set()
 
 X_Time = sm.add_constant(pokeTime_sorted['TIME'])  
