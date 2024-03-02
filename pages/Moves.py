@@ -42,17 +42,26 @@ for column in att_moves.columns:
 for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
+data_option = st.selectbox("Select from these dataframes :",
+                     ("FULL","ONLY ATT MOVES"),
+                     index=0, placeholder="Select the dataframe you'd like to use...")
+
+if data_option == "FULL":
+    data = pokemoves.copy()
+elif data_option == "ONLY ATT MOVES":
+    data = att_moves.copy()
+
 Stats = st.radio("Choose the Stats you'd like to display :",
-                         ["STRENGTH SUM", "MEAN STRENGTH", "MEDIAN STRENGTH", "PRECISION SUM", "MEAN PRECISION", "MEDIAN PRECISION"],
+                         ["STRENGTH SUM", "MEAN STRENGTH", "MEDIAN STRENGTH", "PRECISION SUM", "MEAN PRECISION", "MEDIAN PRECISION","PP","MEAN PP","MEDIAN PP"],
                          horizontal=True)
 
 Stats_without_prefixe = Stats.replace("MEAN ", "").replace("MEDIAN ","").replace(" SUM","")
 
-moves_counts = att_moves['TYPE'].value_counts()
+moves_counts = data['TYPE'].value_counts()
 
 fig = go.Figure()
 
-pokemoves_ATT_sorted = att_moves.sort_values(by='TYPE')
+pokemoves_ATT_sorted = data.sort_values(by='TYPE')
 
 unique_move_type = pd.unique(pokemoves_ATT_sorted['TYPE'])
 Stats_by_move_type = {}
@@ -60,15 +69,15 @@ mean_Stats_by_move_type = {}
 median_Stats_by_move_type = {}
 
 for move_type in unique_move_type:
-    total_Stats = att_moves.loc[att_moves['TYPE'] == move_type, Stats_without_prefixe].sum()
+    total_Stats = data.loc[data['TYPE'] == move_type, Stats_without_prefixe].sum()
     Stats_by_move_type[move_type] = total_Stats
 
 for move_type in unique_move_type:
-    mean_Stats = att_moves.loc[att_moves['TYPE'] == move_type, Stats_without_prefixe].mean()
+    mean_Stats = data.loc[data['TYPE'] == move_type, Stats_without_prefixe].mean()
     mean_Stats_by_move_type[move_type] = mean_Stats
 
 for move_type in unique_move_type:
-    median_Stats = att_moves.loc[att_moves['TYPE'] == move_type, Stats_without_prefixe].median()
+    median_Stats = data.loc[data['TYPE'] == move_type, Stats_without_prefixe].median()
     median_Stats_by_move_type[move_type] = median_Stats
 
 sorted_Stats_by_move_type = {k: v for k, v in sorted(Stats_by_move_type.items())}

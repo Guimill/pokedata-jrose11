@@ -60,7 +60,7 @@ elif data_option == "Without the KO's":
 
 
 Stats = st.radio("Choose the Stats you'd like to display :",
-                     ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL"],
+                     ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL","NUMBER"],
                      horizontal = True)
 
 pokepos_sorted = data.sort_values(by=Stats)
