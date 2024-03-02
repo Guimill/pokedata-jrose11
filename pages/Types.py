@@ -38,71 +38,89 @@ for column in status_moves.columns:
     status_moves[column].fillna(replace_values.get(str(status_moves[column].dtype), ''), inplace=True)
 
 #UI preparation
+    
+data_option = st.selectbox("Select from these dataframes :",
+                     ("FULL","Without Mewtwo","Without Mewtwo and the KO's","Without the KO's"),
+                     index=0, placeholder="Select the dataframe you'd like to use...")
+
+if data_option == "FULL":
+    df = pokedata.copy()  # If you want to use the full DataFrame
+elif data_option == "Without Mewtwo":
+    df = pokedata.iloc[1:].copy()  # Excluding the first row
+elif data_option == "Without Mewtwo and the KO's":
+    df = pokedata.iloc[1:-3].copy()  # Excluding the first row and the last three rows
+elif data_option == "Without the KO's":
+    df = pokedata.iloc[:-3].copy()  # Excluding the last three rows
 
 Stats = st.radio("Choose the Stats you'd like to display :",
-                     ["HP","ATT","DEF","SPD","SPE","TOT","BULK","LEVEL"],
+                     ["HP","ATT","DEF","SPD","SPE","TOT","BULK","LEVEL","POSITION","TIERS","TIME"],
                      horizontal = True)
 
-Stats = pokedata.groupby('DTYPES')[Stats].mean().sort_values()
-Stats_2 = Stats / 2
 
-#Ploting
+Stats_sum = df.groupby('DTYPES')[Stats].sum().sort_values()
+Stats_mean = df.groupby('DTYPES')[Stats].mean().sort_values()
+Stats_median = df.groupby('DTYPES')[Stats].median().sort_values()
 
-# Defining colors based on dt_type_pal_new_double palette
-colors = {key: dt_type_pal_new_double.get(key, ['blue', 'green']) for key in Stats.index}
+Stats_sum_2 = Stats_sum / 2
+Stats_mean_2 = Stats_mean / 2
+Stats_median_2 = Stats_median / 2
 
-pokemon_counts = pokedata['DTYPES'].value_counts()
+colors = {key: dt_type_pal_new_double.get(key, ['blue', 'green']) for key in Stats_sum.index}
 
-data = []
+pokemon_counts = df['DTYPES'].value_counts()
+
+data_sum = []
+data_mean = []
+data_median = []
 
 # Adding text annotation to the first bar only
 trace = go.Bar(
-    x=Stats.index,
-    y=Stats.values,
-    marker=dict(color=[colors[key][0] for key in Stats.index], line=dict(color='rgba(0,0,0,0)')),
+    x=Stats_sum.index,
+    y=Stats_sum.values,
+    marker=dict(color=[colors[key][0] for key in Stats_sum.index], line=dict(color='rgba(0,0,0,0)')),
     showlegend=False,
     hoverinfo='text',  # Set hoverinfo to include text
-    text=pokemon_counts[Stats.index],  # Add text annotation with Pokémon counts
+    text=pokemon_counts[Stats_sum.index],  # Add text annotation with Pokémon counts
     textposition='outside',  # Set position of text annotation
 )
 # Extracting Pokémon data for hover text
 hover_text = []
-for dtype in Stats.index:
-    pokemon_list = pokedata.loc[pokedata['DTYPES'] == dtype, 'POKEMON'].tolist()
+for dtype in Stats_sum.index:
+    pokemon_list = df.loc[df['DTYPES'] == dtype, 'POKEMON'].tolist()
     hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
 trace.hovertext = hover_text  # Assigning hover text to the trace
-data.append(trace)
+data_sum.append(trace)
 
 # Adding other bars without text annotation
-for i, stat_value in enumerate([Stats_2.values[1:]]):
+for i, Stats_sum_value in enumerate([Stats_sum_2.values[1:]]):
     trace = go.Bar(
-        x=Stats.index[1:],
-        y=stat_value,
-        marker=dict(color=[colors[key][i + 1] for key in Stats.index[1:]], line=dict(color='rgba(0,0,0,0)')),
+        x=Stats_sum.index[1:],
+        y=Stats_sum_value,
+        marker=dict(color=[colors[key][i + 1] for key in Stats_sum.index[1:]], line=dict(color='rgba(0,0,0,0)')),
         showlegend=False,
         hoverinfo='text',  # Set hoverinfo to include text
     )
     # Extracting Pokémon data for hover text
     hover_text = []
-    for dtype in Stats.index[1:]:
-        pokemon_list = pokedata.loc[pokedata['DTYPES'] == dtype, 'POKEMON'].tolist()
+    for dtype in Stats_sum.index[1:]:
+        pokemon_list = df.loc[df['DTYPES'] == dtype, 'POKEMON'].tolist()
         hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
     trace.hovertext = hover_text  # Assigning hover text to the trace
-    data.append(trace)
+    data_sum.append(trace)
 
-layout = go.Layout(
+layout_sum = go.Layout(
     xaxis=dict(
         title='DTYPES',
         tickangle=45,
         tickfont=dict(size=15),
         titlefont=dict(size=25)),
     yaxis=dict(
-        title=f'Mean {Stats.name}',
+        title=f'{Stats_sum.name}',
         tickfont=dict(size=25),
         titlefont=dict(size=25)),
     barmode='overlay',
     title={
-        'text': f'Total {Stats.name} for each Types in Jroose Tier List',
+        'text': f'Total {Stats_sum.name} for each Types in Jroose Tier List',
         'x': 0.5,  # Set title's x position to center
         'xanchor': 'center',  # Anchor title to the center
         'font': {'size': 30}
@@ -112,5 +130,125 @@ layout = go.Layout(
     height=720,  # Adjust the height of the plot
 )
 
-fig = go.Figure(data=data, layout=layout)
-st.plotly_chart(fig)
+fig_sum = go.Figure(data=data_sum, layout=layout_sum)
+st.plotly_chart(fig_sum)
+
+# Adding text annotation to the first bar only
+trace = go.Bar(
+    x=Stats_mean.index,
+    y=Stats_mean.values,
+    marker=dict(color=[colors[key][0] for key in Stats_mean.index], line=dict(color='rgba(0,0,0,0)')),
+    showlegend=False,
+    hoverinfo='text',  # Set hoverinfo to include text
+    text=pokemon_counts[Stats_mean.index],  # Add text annotation with Pokémon counts
+    textposition='outside',  # Set position of text annotation
+)
+# Extracting Pokémon data for hover text
+hover_text = []
+for dtype in Stats_mean.index:
+    pokemon_list = df.loc[df['DTYPES'] == dtype, 'POKEMON'].tolist()
+    hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
+trace.hovertext = hover_text  # Assigning hover text to the trace
+data_mean.append(trace)
+
+# Adding other bars without text annotation
+for i, Stats_mean_value in enumerate([Stats_mean_2.values[1:]]):
+    trace = go.Bar(
+        x=Stats_mean.index[1:],
+        y=Stats_mean_value,
+        marker=dict(color=[colors[key][i + 1] for key in Stats_mean.index[1:]], line=dict(color='rgba(0,0,0,0)')),
+        showlegend=False,
+        hoverinfo='text',  # Set hoverinfo to include text
+    )
+    # Extracting Pokémon data for hover text
+    hover_text = []
+    for dtype in Stats_mean.index[1:]:
+        pokemon_list = df.loc[df['DTYPES'] == dtype, 'POKEMON'].tolist()
+        hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
+    trace.hovertext = hover_text  # Assigning hover text to the trace
+    data_mean.append(trace)
+
+layout_mean = go.Layout(
+    xaxis=dict(
+        title='DTYPES',
+        tickangle=45,
+        tickfont=dict(size=15),
+        titlefont=dict(size=25)),
+    yaxis=dict(
+        title=f'{Stats_mean.name}',
+        tickfont=dict(size=25),
+        titlefont=dict(size=25)),
+    barmode='overlay',
+    title={
+        'text': f'Mean {Stats_mean.name} for each Types in Jroose Tier List',
+        'x': 0.5,  # Set title's x position to center
+        'xanchor': 'center',  # Anchor title to the center
+        'font': {'size': 30}
+    },
+    margin=dict(t=100),
+    width=1280,  # Adjust the width of the plot
+    height=720,  # Adjust the height of the plot
+)
+
+fig_mean = go.Figure(data=data_mean, layout=layout_mean)
+st.plotly_chart(fig_mean)
+
+# Adding text annotation to the first bar only
+trace = go.Bar(
+    x=Stats_median.index,
+    y=Stats_median.values,
+    marker=dict(color=[colors[key][0] for key in Stats_median.index], line=dict(color='rgba(0,0,0,0)')),
+    showlegend=False,
+    hoverinfo='text',  # Set hoverinfo to include text
+    text=pokemon_counts[Stats_median.index],  # Add text annotation with Pokémon counts
+    textposition='outside',  # Set position of text annotation
+)
+# Extracting Pokémon data for hover text
+hover_text = []
+for dtype in Stats_median.index:
+    pokemon_list = df.loc[df['DTYPES'] == dtype, 'POKEMON'].tolist()
+    hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
+trace.hovertext = hover_text  # Assigning hover text to the trace
+data_median.append(trace)
+
+# Adding other bars without text annotation
+for i, Stats_median_value in enumerate([Stats_median_2.values[1:]]):
+    trace = go.Bar(
+        x=Stats_median.index[1:],
+        y=Stats_median_value,
+        marker=dict(color=[colors[key][i + 1] for key in Stats_median.index[1:]], line=dict(color='rgba(0,0,0,0)')),
+        showlegend=False,
+        hoverinfo='text',  # Set hoverinfo to include text
+    )
+    # Extracting Pokémon data for hover text
+    hover_text = []
+    for dtype in Stats_median.index[1:]:
+        pokemon_list = df.loc[df['DTYPES'] == dtype, 'POKEMON'].tolist()
+        hover_text.append(f"{dtype}: {', '.join(pokemon_list)}")
+    trace.hovertext = hover_text  # Assigning hover text to the trace
+    data_median.append(trace)
+
+layout_median = go.Layout(
+    xaxis=dict(
+        title='DTYPES',
+        tickangle=45,
+        tickfont=dict(size=15),
+        titlefont=dict(size=25)),
+    yaxis=dict(
+        title=f'{Stats_median.name}',
+        tickfont=dict(size=25),
+        titlefont=dict(size=25)),
+    barmode='overlay',
+    title={
+        'text': f'Median {Stats_median.name} for each Types in Jroose Tier List',
+        'x': 0.5,  # Set title's x position to center
+        'xanchor': 'center',  # Anchor title to the center
+        'font': {'size': 30}
+    },
+    margin=dict(t=100),
+    width=1280,  # Adjust the width of the plot
+    height=720,  # Adjust the height of the plot
+)
+
+fig_median = go.Figure(data=data_median, layout=layout_median)
+st.plotly_chart(fig_median)
