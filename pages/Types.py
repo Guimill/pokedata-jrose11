@@ -52,10 +52,13 @@ elif data_option == "Without Mewtwo and the KO's":
 elif data_option == "Without the KO's":
     df = pokedata.iloc[:-3].copy()  # Excluding the last three rows
 
+st.markdown("***")
+
 Stats = st.radio("Choose the Stats you'd like to display :",
                      ["HP","ATT","DEF","SPD","SPE","TOT","BULK","LEVEL","POSITION","TIERS","TIME"],
                      horizontal = True)
 
+st.markdown("***")
 
 Stats_sum = df.groupby('DTYPES')[Stats].sum().sort_values()
 Stats_mean = df.groupby('DTYPES')[Stats].mean().sort_values()
@@ -133,6 +136,23 @@ layout_sum = go.Layout(
 fig_sum = go.Figure(data=data_sum, layout=layout_sum)
 st.plotly_chart(fig_sum)
 
+st.markdown("***")
+
+Stats = st.radio("Choose the Stats you'd like to display :",
+                     ["HP","ATT","DEF","SPD","SPE","TOT","BULK","LEVEL","POSITION","TIERS","TIME"],
+                     horizontal = True, key = 1)
+
+
+Stats_sum = df.groupby('DTYPES')[Stats].sum().sort_values()
+Stats_mean = df.groupby('DTYPES')[Stats].mean().sort_values()
+Stats_median = df.groupby('DTYPES')[Stats].median().sort_values()
+
+Stats_sum_2 = Stats_sum / 2
+Stats_mean_2 = Stats_mean / 2
+Stats_median_2 = Stats_median / 2
+
+st.markdown("***")
+
 # Adding text annotation to the first bar only
 trace = go.Bar(
     x=Stats_mean.index,
@@ -192,6 +212,23 @@ layout_mean = go.Layout(
 
 fig_mean = go.Figure(data=data_mean, layout=layout_mean)
 st.plotly_chart(fig_mean)
+
+st.markdown("***")
+
+Stats = st.radio("Choose the Stats you'd like to display :",
+                     ["HP","ATT","DEF","SPD","SPE","TOT","BULK","LEVEL","POSITION","TIERS","TIME"],
+                     horizontal = True, key = 2)
+
+
+Stats_sum = df.groupby('DTYPES')[Stats].sum().sort_values()
+Stats_mean = df.groupby('DTYPES')[Stats].mean().sort_values()
+Stats_median = df.groupby('DTYPES')[Stats].median().sort_values()
+
+Stats_sum_2 = Stats_sum / 2
+Stats_mean_2 = Stats_mean / 2
+Stats_median_2 = Stats_median / 2
+
+st.markdown("***")
 
 # Adding text annotation to the first bar only
 trace = go.Bar(
