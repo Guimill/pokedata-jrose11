@@ -22,8 +22,8 @@ st.set_page_config(
         page_title="Pokedata Jroose",
         page_icon="🎮")
 
-st.write("# Welcome to Pokedata Jroose 11 ! 👋")
-
+st.markdown("""# Welcome to Pokedata Jroose 11 ! <img src='/workspaces/pokedata-jroose11/sprites/Sprite_0093_RB.png'>""", unsafe_allow_html=True)
+st.image('/workspaces/pokedata-jroose11/sprites/Sprite_0093_RB.png')
 st.markdown(
         """
 

@@ -28,7 +28,7 @@ pokedata = pd.read_csv('/workspaces/pokedata-jroose11/data/pokedata.csv', sep = 
 pokemoves = pd.read_csv('/workspaces/pokedata-jroose11/data/Full_Moves.csv', sep = ';')
 att_moves = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_ATT_MOVES.csv', sep = ';')
 status_moves = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_STATUS_MOVES.csv', sep = ';')
-
+pokesprites = pd.read_csv('/workspaces/pokedata-jroose11/data/sprites_name.csv')
 
 replace_values = {'int64': 0, 'float64': 0.0, 'object': ''}
 
@@ -76,16 +76,50 @@ fig_pos = go.Figure()
 
 # Add scatter trace for each row
 for index, row in pokepos_sorted.iterrows():
+    number = row['NUMBER'] - 1
+    sprite = pokesprites['SPRITE_NAME'].iloc[number]
+    sprite_src = "/workspaces/pokedata-jroose11/sprites/" + sprite
     value = row[Stats]
     dtypes = row['DTYPES']
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
+    hover_template = f'<img src="{sprite_src}" alt="{row["POKEMON"]} Image" width="100" height="100"><br>{row["POKEMON"]} <br>{dtypes}'
+    
     if dtypes not in legend_labels_pos:
-        scat_pos = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        scat_pos = go.Scatter(
+            x=[row['POSITION']],
+            y=[value],
+            mode='markers',
+            marker=dict(
+                color=colordt_left,
+                symbol='circle',
+                size=10,
+                line=dict(width=3, color=colordt_right)
+            ),
+            name=dtypes,
+            text=row['POKEMON'] + '<br>' + dtypes,
+            hoverinfo='text',
+            hovertemplate=hover_template
+        )
         fig_pos.add_trace(scat_pos)
         legend_labels_pos.add(dtypes)
     else:
-        scat_pos = go.Scatter(x=[row['POSITION']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
+        scat_pos = go.Scatter(
+            x=[row['POSITION']],
+            y=[value],
+            mode='markers',
+            marker=dict(
+                color=colordt_left,
+                symbol='circle',
+                size=10,
+                line=dict(width=3, color=colordt_right)
+            ),
+            showlegend=False,
+            name=dtypes,
+            text=row['POKEMON'] + '<br>' + dtypes,
+            hoverinfo='text',
+            hovertemplate=hover_template
+        )
         fig_pos.add_trace(scat_pos)
 
 
