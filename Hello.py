@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 import streamlit as st
 from streamlit.logger import get_logger
 
@@ -22,8 +21,8 @@ st.set_page_config(
         page_title="Pokedata Jroose",
         page_icon="🎮")
 
-st.markdown("""# Welcome to Pokedata Jroose 11 ! <img src='/workspaces/pokedata-jroose11/sprites/Sprite_0093_RB.png'>""", unsafe_allow_html=True)
-st.image('/workspaces/pokedata-jroose11/sprites/Sprite_0093_RB.png')
+st.markdown("""# Welcome to Pokedata Jroose 11 ! <img src='/workspaces/pokedata-jroose11/static/Sprite_0093_RB.png'>""", unsafe_allow_html=True)
+st.markdown("<img src='/workspaces/pokedata-jroose11/static/Sprite_0093_RB.png'>",unsafe_allow_html=True)
 st.markdown(
         """
 
