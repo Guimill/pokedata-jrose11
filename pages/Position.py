@@ -73,7 +73,6 @@ spearman_corr = pokepos_sorted[['POSITION', Stats]].corr(method='spearman').iloc
 
 fig_pos = go.Figure()
 
-# Add scatter trace for each row
 for index, row in pokepos_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
@@ -84,48 +83,36 @@ for index, row in pokepos_sorted.iterrows():
     dtypes = row['DTYPES']
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
-    hover_template = f'<div>\
-        <img src="data:image/png;base64,{sprite_f}">\
-        <br>{row["POKEMON"]}\
-        <br>{dtypes}\
-    </div>'
-    
-    if dtypes not in legend_labels_pos:
-        scat_pos = go.Scatter(
-            x=[row['POSITION']],
-            y=[value],
-            mode='markers',
-            marker=dict(
-                color=colordt_left,
-                symbol='circle',
-                size=10,
-                line=dict(width=3, color=colordt_right)
-            ),
-            name=dtypes,
-            text=row['POKEMON'] + '<br>' + dtypes,
-            hoverinfo='text',
-            hovertemplate=hover_template
-        )
-        fig_pos.add_trace(scat_pos)
-        legend_labels_pos.add(dtypes)
-    else:
-        scat_pos = go.Scatter(
-            x=[row['POSITION']],
-            y=[value],
-            mode='markers',
-            marker=dict(
-                color=colordt_left,
-                symbol='circle',
-                size=10,
-                line=dict(width=3, color=colordt_right)
-            ),
-            showlegend=False,
-            name=dtypes,
-            text=row['POKEMON'] + '<br>' + dtypes,
-            hoverinfo='text',
-            hovertemplate=hover_template
-        )
-        fig_pos.add_trace(scat_pos)
+
+    # Add scatter plot point
+    scat_pos = go.Scatter(
+        x=[row['POSITION']],
+        y=[value],
+        mode='markers',
+        marker=dict(
+            color=colordt_left,
+            symbol='circle',
+            size=10,
+            line=dict(width=3, color=colordt_right)
+        ),
+        name=dtypes,
+        text=row['POKEMON'] + '<br>' + dtypes,
+        hoverinfo='text',
+    )
+    fig_pos.add_trace(scat_pos)
+
+    # Add image overlay
+    fig_pos.add_layout_image(
+        source='data:image/png;base64,' + sprite_f,
+        x=row['POSITION'],
+        y=value,
+        xanchor="center",
+        yanchor="middle",
+        sizex=20,
+        sizey=20,
+        xref="x",
+        yref="y"
+    )
 
 
 regression_line_pos = const_pos + slope_pos * pokepos_sorted['POSITION']
