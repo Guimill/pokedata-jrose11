@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
 import statsmodels.api as sm
-
-
+import base64
 
 st.set_page_config(
         page_title="Position",
@@ -78,12 +77,18 @@ fig_pos = go.Figure()
 for index, row in pokepos_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "/workspaces/pokedata-jroose11/sprites/" + sprite
+    sprite_src = "/workspaces/pokedata-jroose11/static/" + sprite
+    with open(sprite_src, "rb") as f:
+        sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]
     dtypes = row['DTYPES']
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
-    hover_template = f'<img src="{sprite_src}" alt="{row["POKEMON"]} Image" width="100" height="100"><br>{row["POKEMON"]} <br>{dtypes}'
+    hover_template = f'<div>\
+        <img src="data:image/png;base64,{sprite_f}">\
+        <br>{row["POKEMON"]}\
+        <br>{dtypes}\
+    </div>'
     
     if dtypes not in legend_labels_pos:
         scat_pos = go.Scatter(

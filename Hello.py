@@ -13,6 +13,8 @@
 # limitations under the License.
 import streamlit as st
 from streamlit.logger import get_logger
+import base64
+from pathlib import Path
 
 LOGGER = get_logger(__name__)
 
@@ -21,8 +23,18 @@ st.set_page_config(
         page_title="Pokedata Jroose",
         page_icon="🎮")
 
-st.markdown("""# Welcome to Pokedata Jroose 11 ! <img src='/workspaces/pokedata-jroose11/static/Sprite_0093_RB.png'>""", unsafe_allow_html=True)
-st.markdown("<img src='/workspaces/pokedata-jroose11/static/Sprite_0093_RB.png'>",unsafe_allow_html=True)
+with open("/workspaces/pokedata-jroose11/static/Sprite_0092_RB.png", "rb") as f:
+    data = base64.b64encode(f.read()).decode("utf-8")
+
+st.markdown(
+        f"""
+                <div>
+                        <h1>Welcome to Pokedata Jroose 11 !
+                        <img src="data:image/png;base64,{data}" width="60" height="60" style="padding-bottom: 10px">
+                </div>
+        """, unsafe_allow_html=True)
+
+
 st.markdown(
         """
 
