@@ -115,6 +115,7 @@ for index, row in pokename_sorted.iterrows():
             xref="x",
             yref="y"
         )
+        
 # Add linear regression line
 fig.add_trace(go.Scatter(x=data['POSITION'], y=model.predict(), mode='lines', name='Linear Regression', line=dict(color='red')))
 
