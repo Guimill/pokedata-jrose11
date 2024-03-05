@@ -56,11 +56,13 @@ elif data_option == "Without Mewtwo and the KO's":
 elif data_option == "Without the KO's":
     data = pokedata.iloc[:-3].copy()  # Excluding the last three rows
 
-
+################################################## position #########################################################
 
 Stats = st.radio("Choose the Stats you'd like to display :",
                      ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL","NUMBER"],
                      horizontal = True)
+
+pokebutton_pos = st.checkbox('Display sprites on plot')
 
 pokepos_sorted = data.sort_values(by=Stats)
 legend_labels_pos = set()
@@ -101,31 +103,22 @@ for index, row in pokepos_sorted.iterrows():
     )
     fig_pos.add_trace(scat_pos)
 
-    # Add image overlay
-    fig_pos.add_layout_image(
-        source='data:image/png;base64,' + sprite_f,
-        x=row['POSITION'],
-        y=value,
-        xanchor="center",
-        yanchor="middle",
-        sizex=20,
-        sizey=20,
-        xref="x",
-        yref="y"
-    )
+    if pokebutton_pos:
+        # Add image overlay
+        fig_pos.add_layout_image(
+            source='data:image/png;base64,' + sprite_f,
+            x=row['POSITION'],
+            y=value,
+            xanchor="center",
+            yanchor="middle",
+            sizex=20,
+            sizey=20,
+            xref="x",
+            yref="y"
+        )
 
 
 regression_line_pos = const_pos + slope_pos * pokepos_sorted['POSITION']
-
-# Calculate the residuals (difference between actual values and predicted values)
-residuals_pos = pokepos_sorted[Stats] - regression_line_pos
-
-# Calculate the standard deviation of the residuals
-std_dev_pos = np.std(residuals_pos)
-
-# Calculate upper and lower bounds
-upper_bound_tiers = regression_line_pos + std_dev_pos
-lower_bound_tiers = regression_line_pos - std_dev_pos
 
 fig_pos.add_trace(go.Scatter(x=pokepos_sorted['POSITION'], y=regression_line_pos, mode='lines', name='Linear Regression', line=dict(color='red')))
 
@@ -160,6 +153,15 @@ fig_pos.update_layout(
 # Show plot
 st.plotly_chart(fig_pos)
 
+
+################################################## Tiers #########################################################
+
+Stats = st.radio("Choose the Stats you'd like to display :",
+                     ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL","NUMBER"],
+                     horizontal = True, key=1)
+
+pokebutton_tiers = st.checkbox('Display sprites on plot', key = 2)
+
 poketiers_sorted = data.sort_values(by=Stats)
 legend_labels_tiers = set()
 
@@ -171,20 +173,47 @@ spearman_corr = poketiers_sorted[['TIERS', Stats]].corr(method='spearman').iloc[
 
 fig_tiers = go.Figure()
 
-# Add scatter trace for each row
 for index, row in poketiers_sorted.iterrows():
+    number = row['NUMBER'] - 1
+    sprite = pokesprites['SPRITE_NAME'].iloc[number]
+    sprite_src = "/workspaces/pokedata-jroose11/static/" + sprite
+    with open(sprite_src, "rb") as f:
+        sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]
     dtypes = row['DTYPES']
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
-    if dtypes not in legend_labels_tiers:
-        scat_tiers = go.Scatter(x=[row['TIERS']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
-        fig_tiers.add_trace(scat_tiers)
-        legend_labels_tiers.add(dtypes)
-    else:
-        scat_tiers = go.Scatter(x=[row['TIERS']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
-        fig_tiers.add_trace(scat_tiers)
 
+    # Add scatter plot point
+    scat_tiers = go.Scatter(
+        x=[row['TIERS']],
+        y=[value],
+        mode='markers',
+        marker=dict(
+            color=colordt_left,
+            symbol='circle',
+            size=10,
+            line=dict(width=3, color=colordt_right)
+        ),
+        name=dtypes,
+        text=row['POKEMON'] + '<br>' + dtypes,
+        hoverinfo='text',
+    )
+    fig_tiers.add_trace(scat_tiers)
+
+    if pokebutton_tiers:
+        # Add image overlay
+        fig_tiers.add_layout_image(
+            source='data:image/png;base64,' + sprite_f,
+            x=row['TIERS'],
+            y=value,
+            xanchor="center",
+            yanchor="middle",
+            sizex=20,
+            sizey=20,
+            xref="x",
+            yref="y"
+        )
 
 regression_line_tiers = const_tiers + slope_tiers * poketiers_sorted['TIERS']
 fig_tiers.add_trace(go.Scatter(x=poketiers_sorted['TIERS'], y=regression_line_tiers, mode='lines', name='Linear Regression', line=dict(color='red')))
@@ -220,6 +249,17 @@ fig_tiers.update_layout(
 # Show plot
 st.plotly_chart(fig_tiers)
 
+
+
+################################################## Time #########################################################
+
+Stats = st.radio("Choose the Stats you'd like to display :",
+                     ["HP","ATT","DEF","SPD","SPE","BULK","TOT","LEVEL","NUMBER"],
+                     horizontal = True, key=3)
+
+pokebutton_time = st.checkbox('Display sprites on plot', key = 4)
+
+
 pokeTime_sorted = data.sort_values(by=Stats)
 legend_labels_Time = set()
 
@@ -231,20 +271,47 @@ spearman_corr = pokeTime_sorted[['TIME', Stats]].corr(method='spearman').iloc[0,
 
 fig_time = go.Figure()
 
-# Add scatter trace for each row
 for index, row in pokeTime_sorted.iterrows():
+    number = row['NUMBER'] - 1
+    sprite = pokesprites['SPRITE_NAME'].iloc[number]
+    sprite_src = "/workspaces/pokedata-jroose11/static/" + sprite
+    with open(sprite_src, "rb") as f:
+        sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]
     dtypes = row['DTYPES']
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
-    if dtypes not in legend_labels_tiers:
-        scat_Time = go.Scatter(x=[row['TIME']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
-        fig_time.add_trace(scat_Time)
-        legend_labels_tiers.add(dtypes)
-    else:
-        scat_Time = go.Scatter(x=[row['TIME']], y=[value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, name=dtypes, text=row['POKEMON'] + '<br>' + dtypes, hoverinfo='text')
-        fig_time.add_trace(scat_Time)
 
+    # Add scatter plot point
+    scat_time = go.Scatter(
+        x=[row['TIME']],
+        y=[value],
+        mode='markers',
+        marker=dict(
+            color=colordt_left,
+            symbol='circle',
+            size=10,
+            line=dict(width=3, color=colordt_right)
+        ),
+        name=dtypes,
+        text=row['POKEMON'] + '<br>' + dtypes,
+        hoverinfo='text',
+    )
+    fig_time.add_trace(scat_time)
+
+    if pokebutton_time:
+        # Add image overlay
+        fig_time.add_layout_image(
+            source='data:image/png;base64,' + sprite_f,
+            x=row['TIME'],
+            y=value,
+            xanchor="center",
+            yanchor="middle",
+            sizex=60,
+            sizey=60,
+            xref="x",
+            yref="y"
+        )
 
 regression_line_time = const_Time + slope_Time * pokeTime_sorted['TIME']
 fig_time.add_trace(go.Scatter(x=pokeTime_sorted['TIME'], y=regression_line_time, mode='lines', name='Linear Regression', line=dict(color='red')))

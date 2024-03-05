@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
 import statsmodels.api as sm
-
+import base64
 
 
 st.set_page_config(
@@ -28,6 +28,7 @@ pokedata = pd.read_csv('/workspaces/pokedata-jroose11/data/pokedata.csv', sep = 
 pokemoves = pd.read_csv('/workspaces/pokedata-jroose11/data/Full_Moves.csv', sep = ';')
 att_moves = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_ATT_MOVES.csv', sep = ';')
 status_moves = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_STATUS_MOVES.csv', sep = ';')
+pokesprites = pd.read_csv('/workspaces/pokedata-jroose11/data/sprites_name.csv')
 
 
 replace_values = {'int64': 0, 'float64': 0.0, 'object': ''}
@@ -57,6 +58,8 @@ elif data_option == "Without Mewtwo and the KO's":
 elif data_option == "Without the KO's":
     data = pokedata.iloc[:-3].copy() 
 
+pokebutton = st.checkbox('Display sprites on plot')
+
 fig = go.Figure()
 
 pokename_sorted = data.sort_values(by='LEN_POKEMON')
@@ -71,21 +74,47 @@ const, slope = model.params
 
 spearman_corr = pokename_sorted[['LEN_POKEMON', 'POSITION']].corr(method='spearman').iloc[0, 1]
 
-# Add scatter trace for each row
 for index, row in pokename_sorted.iterrows():
-    len_value = row['LEN_POKEMON']
+    number = row['NUMBER'] - 1
+    sprite = pokesprites['SPRITE_NAME'].iloc[number]
+    sprite_src = "/workspaces/pokedata-jroose11/static/" + sprite
+    with open(sprite_src, "rb") as f:
+        sprite_f = base64.b64encode(f.read()).decode("utf-8")
+    value = row['LEN_POKEMON']
     dtypes = row['DTYPES']
-    pokemon_name = row['POKEMON']
     colordt_left = dt_type_pal_new_double.get(dtypes)[0]
     colordt_right = dt_type_pal_new_double.get(dtypes)[1]
-    if dtypes not in legend_labels:
-        scat = go.Scatter(x=[row['POSITION']], y=[len_value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), name=dtypes, text=pokemon_name)
-        fig.add_trace(scat)
-        legend_labels.add(dtypes)
-    else:
-        scat = go.Scatter(x=[row['POSITION']], y=[len_value], mode='markers', marker=dict(color=colordt_left, symbol='circle', size=10, line=dict(width=3, color=colordt_right)), showlegend=False, text=pokemon_name)
-        fig.add_trace(scat)
 
+    # Add scatter plot point
+    scat_pos = go.Scatter(
+        x=[row['POSITION']],
+        y=[value],
+        mode='markers',
+        marker=dict(
+            color=colordt_left,
+            symbol='circle',
+            size=10,
+            line=dict(width=3, color=colordt_right)
+        ),
+        name=dtypes,
+        text=row['POKEMON'] + '<br>' + dtypes,
+        hoverinfo='text',
+    )
+    fig.add_trace(scat_pos)
+
+    if pokebutton:
+        # Add image overlay
+        fig.add_layout_image(
+            source='data:image/png;base64,' + sprite_f,
+            x=row['POSITION'],
+            y=value,
+            xanchor="center",
+            yanchor="middle",
+            sizex=3,
+            sizey=3,
+            xref="x",
+            yref="y"
+        )
 # Add linear regression line
 fig.add_trace(go.Scatter(x=data['POSITION'], y=model.predict(), mode='lines', name='Linear Regression', line=dict(color='red')))
 
