@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import base64
 
 st.set_page_config(
         page_title="Data",
@@ -48,3 +49,12 @@ data = st.selectbox("Here's all the Dataframes that I created for this site, you
                      index=1, placeholder="Select the dataframe you'd like to display...")
 
 st.dataframe(locals()[data])
+
+with open("/workspaces/pokedata-jroose11/data/sprites.zip", "rb") as fp:
+    btn = st.download_button(
+        label=''':open_file_folder: :rainbow[Download the sprites used in this app]''',
+        data=fp,
+        file_name="sprites.zip",
+        mime="application/zip"
+    )
+
