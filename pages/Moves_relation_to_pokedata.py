@@ -3,10 +3,11 @@ import streamlit as st
 import numpy as np
 import statsmodels.api as sm
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 st.set_page_config(
-    page_title="Position",
-    page_icon="🔝",
+    page_title="Moves relation to pokedata",
+    page_icon=":dagger_knife:",
     layout="wide"
 )
 
@@ -49,19 +50,34 @@ Tiers_palette={
                 "KO":"#808080",
                }
 
+Moves = st.checkbox('Switch between LS / TM Moves analysis')
+
+tiers = sm.add_constant(pokedata['TIERS'])
+
 plot = go.Figure()
 
 for tier, color in Tiers_palette.items():
+    if Moves:
+        moves = 'SUM_TM_MOVES'
+    else:
+        moves = 'SUM_LS_MOVES'
+    model_tiers = sm.OLS(pokedata[moves], tiers).fit()
+    const_tiers, slope_tiers = model_tiers.params
+    spearman_corr = pokedata[['TIERS', moves]].corr(method='spearman').iloc[0, 1]
+
     subset_data = pokedata[pokedata['TRUE_TIERS'] == tier]
-    plot.add_trace(go.Violin(x=subset_data['TRUE_TIERS'],
-                             y=subset_data['SUM_TM_MOVES'],
+    plot.add_violin(x=subset_data['TRUE_TIERS'],
+                             y=subset_data[moves],
                              line_color='black',
                              fillcolor=color,
                              box_visible=True,
                              meanline_visible=True,
                              name=tier,
                              points='all',
-                             marker=dict(color=color)))
+                             marker=dict(color=color))
+    
+regression_line_tiers = const_tiers + slope_tiers * pokedata['TIERS']
+plot.add_trace(go.Scatter(x=pokedata['TRUE_TIERS'], y=regression_line_tiers, mode='lines', name='Linear Regression', line=dict(color='red')))
 
 plot.update_layout(
     xaxis=dict(title='TIERS',
@@ -80,6 +96,14 @@ plot.update_layout(
         'font': {'size': 30}
     },
     margin=dict(t=100),
+    annotations=[dict(
+        text=f"Spearman Correlation: {spearman_corr * 100:.2f}%",
+        x=1, y=1.05,
+        xref="paper", yref="paper",
+        showarrow=False,
+        font=dict(color="black", size=16),
+        bgcolor="#f06d57", opacity=0.8
+    )],
 )
 
 

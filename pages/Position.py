@@ -141,12 +141,12 @@ fig_pos.update_layout(
     },
     margin=dict(t=100),
     annotations=[dict(
-        text=f"Spearman Correlation: {spearman_corr * -100:.2f}%",
+        text=f"Spearman Correlation: {spearman_corr * 100:.2f}%",
         x=0.95, y=0.95,
         xref="paper", yref="paper",
         showarrow=False,
-        font=dict(color="black", size=12),
-        bgcolor="#19c37d", opacity=0.8
+        font=dict(color="black", size=16),
+        bgcolor="#f06d57", opacity=0.8
     )],
 )
 
@@ -237,12 +237,12 @@ fig_tiers.update_layout(
     },
     margin=dict(t=100),
     annotations=[dict(
-        text=f"Spearman Correlation: {spearman_corr * -100:.2f}%",
+        text=f"Spearman Correlation: {spearman_corr * 100:.2f}%",
         x=0.95, y=0.95,
         xref="paper", yref="paper",
         showarrow=False,
-        font=dict(color="black", size=12),
-        bgcolor="#19c37d", opacity=0.8
+        font=dict(color="black", size=16),
+        bgcolor="#f06d57", opacity=0.8
     )],
 )
 
@@ -335,12 +335,12 @@ fig_time.update_layout(
     },
     margin=dict(t=100),
     annotations=[dict(
-        text=f"Spearman Correlation: {spearman_corr * -100:.2f}%",
+        text=f"Spearman Correlation: {spearman_corr * 100:.2f}%",
         x=0.95, y=0.95,
         xref="paper", yref="paper",
         showarrow=False,
-        font=dict(color="black", size=12),
-        bgcolor="#19c37d", opacity=0.8
+        font=dict(color="black", size=16),
+        bgcolor="#f06d57", opacity=0.8
     )],
 )
 
