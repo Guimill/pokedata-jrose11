@@ -24,6 +24,37 @@ type_pal_old={"Dragon":"#4f60e2","Electrik":"#fac100","Fighting":"#ff8100","Fire
 type_pal_new={"Dragon":"#036dc4","Electrik":"#f4d339","Fighting":"#cf3f6b","Fire":"#ff9e54","Ghost":"#5169ae","Ground":"#da7943","Ice":"#74cfc1","Insect":"#92c22b","Normal":"#929ba3","Plant":"#63bb5a","Poison":"#ac6bc9","Psychic":"#fa727a","Rock":"#c6b88d","Water":"#4f91d7","Fly":"#90abdf"}
 dt_type_pal_new={"Dragon":"#036dc4","Dragon/Fly":["#036dc4","#90abdf"],"Electrik":"#f4d339","Electrik/Fly":["#f4d339","#90abdf"],"Fighting":"#cf3f6b","Fire":"#ff9e54","Fire/Fly":["#ff9e54","#90abdf"],"Ghost/Poison":["#5169ae","#ac6bc9"],"Ground":"#da7943","Ground/Poison":["#da7943","#ac6bc9"],"Ground/Rock":["#da7943","#c6b88d"],"Ice/Fly":["#74cfc1","#90abdf"],"Ice/Psychic":["#74cfc1","#fa727a"],"Insect":"#92c22b","Insect/Fly":["#92c22b","#90abdf"],"Insect/Plant":["#92c22b","#63bb5a"],"Insect/Poison":["#92c22b","#ac6bc9"],"Normal":"#929ba3","Normal/Fly":["#929ba3","#90abdf"],"Plant/Poison":["#63bb5a","#ac6bc9"],"Plant/Psychic":["#63bb5a","#fa727a"],"Poison":"#ac6bc9","Poison/Fly":["#ac6bc9","#90abdf"],"Psychic":"#fa727a","Rock/Fly":["#c6b88d","#90abdf"],"Rock/Ground":["#c6b88d","#da7943"],"Water":"#4f91d7","Water/Fly":["#4f91d7","#90abdf"],"Water/Ice":["#4f91d7","#74cfc1"],"Water/Poison":["#4f91d7","#ac6bc9"],"Water/Psychic":["#4f91d7","#fa727a"]}
 dt_type_pal_new_double={"Dragon":["#036dc4","#036dc4"],"Dragon/Fly":["#036dc4","#90abdf"],"Electrik":["#f4d339","#f4d339"],"Electrik/Fly":["#f4d339","#90abdf"],"Fighting":["#cf3f6b","#cf3f6b"],"Fire":["#ff9e54","#ff9e54"],"Fire/Fly":["#ff9e54","#90abdf"],"Ghost/Poison":["#5169ae","#ac6bc9"],"Ground":["#da7943","#da7943"],"Ground/Poison":["#da7943","#ac6bc9"],"Ground/Rock":["#da7943","#c6b88d"],"Ice/Fly":["#74cfc1","#90abdf"],"Ice/Psychic":["#74cfc1","#fa727a"],"Insect":["#92c22b","#92c22b"],"Insect/Fly":["#92c22b","#90abdf"],"Insect/Plant":["#92c22b","#63bb5a"],"Insect/Poison":["#92c22b","#ac6bc9"],"Normal":["#929ba3","#929ba3"],"Normal/Fly":["#929ba3","#90abdf"],"Plant/Poison":["#63bb5a","#ac6bc9"],"Plant/Psychic":["#63bb5a","#fa727a"],"Poison":["#ac6bc9","#ac6bc9"],"Poison/Fly":["#ac6bc9","#90abdf"],"Psychic":["#fa727a","#fa727a"],"Rock/Fly":["#c6b88d","#90abdf"],"Rock/Ground":["#c6b88d","#da7943"],"Water":["#4f91d7","#4f91d7"],"Water/Fly":["#4f91d7","#90abdf"],"Water/Ice":["#4f91d7","#74cfc1"],"Water/Poison":["#4f91d7","#ac6bc9"],"Water/Psychic":["#4f91d7","#fa727a"]}
+True_Tiers_palette={
+                "SS":"#963634",
+                "S":"#ff7f7f",
+                "A":"#f79646",
+                "B":"#ffd467",
+                "C":"#ffff7f",
+                "D":"#bfff7f",
+                "E":"#7fff7f",
+                "F":"#7fffff",
+                "G":"#7f7fff",
+                "H":"#ff7fff",
+                "I":"#bf7fbf",
+                "J":"#60497a",
+                "KO":"#808080",
+               }
+
+Tiers_palette={
+                1:"#963634",
+                2:"#ff7f7f",
+                3:"#f79646",
+                4:"#ffd467",
+                5:"#ffff7f",
+                6:"#bfff7f",
+                7:"#7fff7f",
+                8:"#7fffff",
+                9:"#7f7fff",
+                10:"#ff7fff",
+                11:"#bf7fbf",
+                12:"#60497a",
+                13:"#808080",
+               }
 
 #dataframe preparation
 
@@ -84,6 +115,26 @@ predicted_positions = (predicted_positions - min_position) / (max_position - min
 # Step 8: Add predicted positions as a new column to pokestats_sorted DataFrame
 pokestats_sorted[f'POSITION_{Stats}'] = predicted_positions
 
+############### same for tiers ################
+
+model_tiers = RandomForestRegressor()  # You can try other models as well
+
+# Step 5: Model Training
+X_train_tiers = pokepos_sorted[[Stats]]  # Using the selected stat as the feature
+y_train_tiers = pokepos_sorted['TIERS']  # Target variable
+model_tiers.fit(X_train_tiers, y_train_tiers)
+
+# Step 7: Prediction
+
+X_test_tiers = pokestats_sorted[[Stats]]  # Using the selected stat as the feature
+predicted_positions_tiers = model_tiers.predict(X_test_tiers)
+predicted_positions_tiers = np.round(predicted_positions_tiers).astype(int)
+
+# Step 8: Add predicted positions as a new column to pokestats_sorted DataFrame
+pokestats_sorted[f'TIERS_{Stats}'] = predicted_positions_tiers
+
+############### same for all stats at once ################
+
 model_151 = RandomForestRegressor()  # You can try other models as well
 
 # Step 5: Model Training
@@ -106,6 +157,8 @@ pokestats_sorted['POSITION'] = predicted_positions_all_151
 
 ################# ploting stat by stat ####################
 
+st.write(pokestats_sorted)
+
 fig_stats = go.Figure()
 
 # Loop through pokestats_sorted to add scatter points and images
@@ -116,13 +169,20 @@ for index, row in pokestats_sorted.iterrows():
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]
+    colordt = Tiers_palette.get(row[f'TIERS_{Stats}'])
 
     # Add scatter plot point
     scat_stats = go.Scatter(
         x=[row[f'POSITION_{Stats}']],
         y=[value],
         mode='markers',
-        text=row['POKEMON'],
+        marker=dict(
+            color=colordt,
+            symbol='circle',
+            size=10
+        ),
+        name=row[f'TIERS_{Stats}'],
+        text=row['POKEMON'] + '<br>' + str(row[f'TIERS_{Stats}']) + '<br>' + str(row[Stats]) + '<br>' + str(row['POSITION']),
         hoverinfo='text',
     )
     fig_stats.add_trace(scat_stats)
@@ -184,6 +244,7 @@ for index, row in pokestats_sorted.iterrows():
         mode='markers',
         text=row['POKEMON'],
         hoverinfo='text',
+        showlegend=False 
     )
     fig_all.add_trace(scat_all)
 

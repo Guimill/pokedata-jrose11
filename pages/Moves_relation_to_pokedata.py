@@ -41,13 +41,28 @@ Tiers_palette={
                 "C":"#ffff7f",
                 "D":"#bfff7f",
                 "E":"#7fff7f",
-                "F":"#7fff7f",
-                "G":"#7fffff",
-                "H":"#7f7fff",
-                "I":"#ff7fff",
-                "J":"#bf7fbf",
-                "K":"#60497a",
+                "F":"#7fffff",
+                "G":"#7f7fff",
+                "H":"#ff7fff",
+                "I":"#bf7fbf",
+                "J":"#60497a",
                 "KO":"#808080",
+               }
+
+Tiers_palette2={
+                "1":"#963634",
+                "2":"#ff7f7f",
+                "3":"#f79646",
+                "4":"#ffd467",
+                "5":"#ffff7f",
+                "6":"#bfff7f",
+                "7":"#7fff7f",
+                "8":"#7fffff",
+                "9":"#7f7fff",
+                "10":"#ff7fff",
+                "11":"#bf7fbf",
+                "12":"#60497a",
+                "13":"#808080",
                }
 
 Moves = st.checkbox('Switch between LS / TM Moves analysis')
