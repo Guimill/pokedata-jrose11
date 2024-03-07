@@ -1,0 +1,11 @@
+Créer des graphes - stats - webapp
+informations désirées :
+-composantes les plus impactantes [stats, movepool, moveset]
+-move le plus impactant
+-type le plus puissant
+-double type le plus puissant
+-pour un même movepool, qu'est-ce qui fait une différence
+-graphe avec manipulation des données de stats et de tiers et peut être de type
+-moyenne et médiane des stats des pokémons par tiers
+-graph mutifactorielle des moves pour les tiers
+add hig level group

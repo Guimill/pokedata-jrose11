@@ -98,7 +98,7 @@ for index, row in pokepos_sorted.iterrows():
             line=dict(width=3, color=colordt_right)
         ),
         name=dtypes,
-        text=row['POKEMON'] + '<br>' + dtypes,
+        text=row['POKEMON'] + '<br>' + dtypes + '<br>' + str(row[Stats]) + '<br>' + str(row['POSITION']),
         hoverinfo='text',
     )
     fig_pos.add_trace(scat_pos)
