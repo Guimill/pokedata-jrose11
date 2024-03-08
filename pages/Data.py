@@ -22,11 +22,11 @@ NEW_DTYPE_PALETTE =  pd.DataFrame.from_dict(dt_type_pal_new,orient = 'index', co
 NEW_DTYPE_PALETTE_DOUBLE =  pd.DataFrame.from_dict(dt_type_pal_new_double,orient = 'index', columns = ['1 type coulours','2 type coulours'])
 NEW_TRUE_TIERS_PALETTE = pd.DataFrame.from_dict(True_Tiers_palette, orient='index', columns=['colours'])
 
-POKEDATA = pd.read_csv('/workspaces/pokedata-jroose11/data/pokedata.csv', sep = ';')
-POKEMOVES = pd.read_csv('/workspaces/pokedata-jroose11/data/Full_Moves.csv', sep = ';')
-ATT_MOVES = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_ATT_MOVES.csv', sep = ';')
-STATUS_MOVES = pd.read_csv('/workspaces/pokedata-jroose11/data/FULL_STATUS_MOVES.csv', sep = ';')
-JROOSE11 = pd.read_csv('/workspaces/pokedata-jroose11/data/JROOSE11.csv', sep = ';')
+POKEDATA = pd.read_csv('/workspaces/pokedata-jrose11/data/pokedata.csv', sep = ';')
+POKEMOVES = pd.read_csv('/workspaces/pokedata-jrose11/data/Full_Moves.csv', sep = ';')
+ATT_MOVES = pd.read_csv('/workspaces/pokedata-jrose11/data/FULL_ATT_MOVES.csv', sep = ';')
+STATUS_MOVES = pd.read_csv('/workspaces/pokedata-jrose11/data/FULL_STATUS_MOVES.csv', sep = ';')
+JROSE11 = pd.read_csv('/workspaces/pokedata-jrose11/data/JROSE11.csv', sep = ';')
 
 
 # Define replacement values for NaN based on data types
@@ -45,16 +45,16 @@ for column in ATT_MOVES.columns:
 for column in STATUS_MOVES.columns:
     STATUS_MOVES[column].fillna(replace_values.get(str(STATUS_MOVES[column].dtype), ''), inplace=True)
 
-for column in JROOSE11.columns:
-    JROOSE11[column].fillna(replace_values.get(str(JROOSE11[column].dtype), ''), inplace=True)
+for column in JROSE11.columns:
+    JROSE11[column].fillna(replace_values.get(str(JROSE11[column].dtype), ''), inplace=True)
 
 data = st.selectbox("Here's all the Dataframes that I created for this site, you can see them and even download them freely :",
-                     ("JROOSE11","POKEDATA","ATT_MOVES","STATUS_MOVES","POKEMOVES","OLD_TYPE_PALETTE","NEW_TYPE_PALETTE","NEW_DTYPE_PALETTE","NEW_DTYPE_PALETTE_DOUBLE","NEW_TRUE_TIERS_PALETTE"),
+                     ("JROSE11","POKEDATA","ATT_MOVES","STATUS_MOVES","POKEMOVES","OLD_TYPE_PALETTE","NEW_TYPE_PALETTE","NEW_DTYPE_PALETTE","NEW_DTYPE_PALETTE_DOUBLE","NEW_TRUE_TIERS_PALETTE"),
                      index=1, placeholder="Select the dataframe you'd like to display...")
 
 st.dataframe(locals()[data])
 
-with open("/workspaces/pokedata-jroose11/data/sprites.zip", "rb") as fp:
+with open("/workspaces/pokedata-jrose11/data/sprites.zip", "rb") as fp:
     btn = st.download_button(
         label=''':open_file_folder: :rainbow[Download the sprites used in this app]''',
         data=fp,

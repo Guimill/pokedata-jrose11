@@ -23,7 +23,7 @@ st.set_page_config(
         page_title="Pokedata Jrose",
         page_icon="🎮")
 
-with open("/workspaces/pokedata-jroose11/static/Sprite_0065_RB.png", "rb") as f:
+with open("/workspaces/pokedata-jrose11/static/Sprite_0065_RB.png", "rb") as f:
     data = base64.b64encode(f.read()).decode("utf-8")
 
 st.markdown(
