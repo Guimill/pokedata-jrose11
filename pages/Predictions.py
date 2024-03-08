@@ -11,6 +11,7 @@ import plotly.graph_objects as go
 import statsmodels.api as sm
 import base64
 
+np.random.seed(556)
 
 st.set_page_config(
         page_title="Position",
@@ -56,6 +57,23 @@ Tiers_palette={
                 13:"#808080",
                }
 
+Tiers_map={
+                "SS": 1,
+                "S": 2,
+                "A": 3,
+                "B": 4,
+                "C": 5,
+                "D": 6,
+                "E": 7,
+                "F": 8,
+                "G": 9,
+                "H": 10, 
+                "I": 11,
+                "J": 12,
+                "KO": 13,
+               }
+
+
 #dataframe preparation
 
 pokedata = pd.read_csv('/workspaces/pokedata-jroose11/data/pokedata.csv', sep = ';')
@@ -85,7 +103,7 @@ for column in pokestats.columns:
 ################################################## position #########################################################
 
 Stats = st.radio("Choose the Stats you'd like to display :",
-                     ["HP","ATT","DEF","SPD","SPE","BULK","TOT","NUMBER"],
+                     ["HP","ATT","DEF","SPD","SPE","BULK","NUMBER"],
                      horizontal = True)
 
 pokebutton_pos = st.checkbox('Display sprites on plot')
@@ -105,15 +123,17 @@ model.fit(X_train, y_train)
 # Assuming pokestats_sorted is a DataFrame containing the stats of the remaining Pokémon
 X_test = pokestats_sorted[[Stats]]  # Using the selected stat as the feature
 predicted_positions = model.predict(X_test)
-predicted_positions = np.round(predicted_positions).astype(int)
 
 # Transform predicted positions to 151-scale position range
 min_position = min(predicted_positions)
 max_position = max(predicted_positions)
 predicted_positions = (predicted_positions - min_position) / (max_position - min_position) * 150 + 1
+predicted_positions_rounded = np.round(predicted_positions).astype(int)
+
 
 # Step 8: Add predicted positions as a new column to pokestats_sorted DataFrame
-pokestats_sorted[f'POSITION_{Stats}'] = predicted_positions
+pokestats_sorted[f'POSITION_{Stats}'] = predicted_positions_rounded
+pokestats_sorted[f'POSITION_FLOAT_{Stats}'] = predicted_positions
 
 ############### same for tiers ################
 
@@ -128,10 +148,11 @@ model_tiers.fit(X_train_tiers, y_train_tiers)
 
 X_test_tiers = pokestats_sorted[[Stats]]  # Using the selected stat as the feature
 predicted_positions_tiers = model_tiers.predict(X_test_tiers)
-predicted_positions_tiers = np.round(predicted_positions_tiers).astype(int)
+predicted_positions_tiers_rounded = np.round(predicted_positions_tiers).astype(int)
 
 # Step 8: Add predicted positions as a new column to pokestats_sorted DataFrame
-pokestats_sorted[f'TIERS_{Stats}'] = predicted_positions_tiers
+pokestats_sorted[f'TIERS_{Stats}'] = predicted_positions_tiers_rounded
+pokestats_sorted[f'TIERS_FLOAT_{Stats}'] = predicted_positions_tiers
 
 ############### same for all stats at once ################
 
@@ -151,13 +172,35 @@ predicted_positions_all_151 = model_151.predict(X_all_pokemon)
 min_position_151 = min(predicted_positions_all_151)
 max_position_151 = max(predicted_positions_all_151)
 predicted_positions_all_151 = (predicted_positions_all_151 - min_position_151) / (max_position_151 - min_position_151) * 150 + 1
+predicted_positions_all_151_rounded = np.round(predicted_positions_all_151).astype(int)
+
 
 # Assign scaled positions to all 151 Pokémon
-pokestats_sorted['POSITION'] = predicted_positions_all_151
+pokestats_sorted['POSITION'] = predicted_positions_all_151_rounded
+pokestats_sorted['POSITION_FLOAT'] = predicted_positions_all_151
+
+############### same for tiers for all stats ################
+
+model_tiers_151 = RandomForestRegressor()  # You can try other models as well
+
+# Step 5: Model Training
+X_train_tiers_151 = pokepos_sorted[['HP', 'ATT', 'DEF', 'SPD', 'SPE']]  # Using the selected stat as the feature
+y_train_tiers_151 = pokepos_sorted['TIERS']  # Target variable
+model_tiers_151.fit(X_train_tiers_151, y_train_tiers_151)
+
+# Step 7: Prediction
+
+X_all_pokemon_tiers = pokestats_sorted[['HP', 'ATT', 'DEF', 'SPD', 'SPE']]  # Features for all 151 Pokémon
+predicted_tiers_all_151 = model_tiers_151.predict(X_all_pokemon_tiers)
+predicted_tiers_all_151_rounded = np.round(predicted_tiers_all_151).astype(int)
+
+# Step 8: Add predicted positions as a new column to pokestats_sorted DataFrame
+pokestats_sorted['TIERS'] = predicted_tiers_all_151_rounded
+pokestats_sorted['TIERS_FLOAT'] = predicted_tiers_all_151
+
+pokestats_sorted['TRUE_TIERS'] = pokestats_sorted['TIERS'].map({v: k for k, v in Tiers_map.items()})
 
 ################# ploting stat by stat ####################
-
-st.write(pokestats_sorted)
 
 fig_stats = go.Figure()
 
@@ -181,9 +224,20 @@ for index, row in pokestats_sorted.iterrows():
             symbol='circle',
             size=10
         ),
-        name=row[f'TIERS_{Stats}'],
-        text=row['POKEMON'] + '<br>' + str(row[f'TIERS_{Stats}']) + '<br>' + str(row[Stats]) + '<br>' + str(row['POSITION']),
+        name=row['TRUE_TIERS'],
+        text=row['POKEMON'] +
+            '<br>' + "Tier : " + str(row[f'TIERS_{Stats}']) +
+            '<br>' + "Precise tier : " + str(row[f'TIERS_FLOAT_{Stats}']) +
+            '<br>' + "Stats : " + str(value) +
+            '<br>' + "Position : " + str(row[f'POSITION_{Stats}']) +
+            '<br>' + "Precise position : " + str(row[f'POSITION_FLOAT_{Stats}']),
         hoverinfo='text',
+    showlegend=False,
+    hoverlabel=dict(
+        bgcolor=colordt,
+        font=dict(color='black'),
+        bordercolor='black',
+        ),
     )
     fig_stats.add_trace(scat_stats)
 
@@ -235,16 +289,28 @@ for index, row in pokestats_sorted.iterrows():
     sprite_src = "/workspaces/pokedata-jroose11/static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
-    value = row[Stats]
+    value_all = row['TOT']
+    color = Tiers_palette.get(row['TIERS'])
 
     # Add scatter plot point
     scat_all = go.Scatter(
         x=[row['POSITION']],
-        y=[value],
+        y=[value_all],
         mode='markers',
-        text=row['POKEMON'],
+        marker=dict(
+            color=color,
+            symbol='circle',
+            size=10
+        ),
+        name=row['TRUE_TIERS'],
+        text=row['POKEMON'] +
+            '<br>' + "Tier : " + str(row['TIERS']) +
+            '<br>' + "Precise tier : " + str(row['TIERS_FLOAT']) +
+            '<br>' + "Stats : " + str(row['TOT']) +
+            '<br>' + "Position : " + str(row['POSITION']) +
+            '<br>' + "Precise position : " + str(row['POSITION_FLOAT']),
         hoverinfo='text',
-        showlegend=False 
+        showlegend=False,
     )
     fig_all.add_trace(scat_all)
 
@@ -253,7 +319,7 @@ for index, row in pokestats_sorted.iterrows():
         fig_all.add_layout_image(
             source='data:image/png;base64,' + sprite_f,
             x=row['POSITION'],
-            y=value,
+            y=value_all,
             xanchor="center",
             yanchor="middle",
             sizex=15,
@@ -273,7 +339,7 @@ fig_all.update_layout(
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
     title={
-        'text': f"Scatter Plot of the prediction for Pokemon position in function of {Stats}",
+        'text': "Scatter Plot of the prediction for Pokemon position in function of all Stats",
         'x': 0.5,  # Set title's x position to center
         'xanchor': 'center',  # Anchor title to the center
         'font': {'size': 30}
