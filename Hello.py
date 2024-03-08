@@ -23,10 +23,10 @@ st.set_page_config(
         page_title="Pokedata Jrose11",
         page_icon="🎮")
 
-with open("../static/Sprite_0065_RB.png", "rb") as f:
+with open("./static/Sprite_0065_RB.png", "rb") as f:
     alakazam = base64.b64encode(f.read()).decode("utf-8")
 
-with open("../static/Sprite_0093_RB.png", "rb") as f:
+with open("./static/Sprite_0093_RB.png", "rb") as f:
     spectrum = base64.b64encode(f.read()).decode("utf-8")
 
 st.markdown(
