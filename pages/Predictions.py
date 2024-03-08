@@ -32,12 +32,12 @@ Tiers_map={"SS":1,"S":2,"A":3,"B":4,"C":5,"D":6,"E":7,"F":8,"G":9,"H":10,"I":11,
 
 #dataframe preparation
 
-pokedata = pd.read_csv('data/pokedata.csv', sep = ';')
-pokemoves = pd.read_csv('data/Full_Moves.csv', sep = ';')
-att_moves = pd.read_csv('data/FULL_ATT_MOVES.csv', sep = ';')
-status_moves = pd.read_csv('data/FULL_STATUS_MOVES.csv', sep = ';')
-pokesprites = pd.read_csv('data/sprites_name.csv')
-pokestats = pd.read_csv('data/Full_pokestats.csv', sep = ';')
+pokedata = pd.read_csv('./data/pokedata.csv', sep = ';')
+pokemoves = pd.read_csv('./data/Full_Moves.csv', sep = ';')
+att_moves = pd.read_csv('./data/FULL_ATT_MOVES.csv', sep = ';')
+status_moves = pd.read_csv('./data/FULL_STATUS_MOVES.csv', sep = ';')
+pokesprites = pd.read_csv('./data/sprites_name.csv')
+pokestats = pd.read_csv('./data/Full_pokestats.csv', sep = ';')
 
 replace_values = {'int64': 0, 'float64': 0.0, 'object': ''}
 
