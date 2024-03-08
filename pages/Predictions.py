@@ -15,7 +15,7 @@ np.random.seed(556)
 
 st.set_page_config(
         page_title="Prediction",
-        page_icon="⚜️",
+        page_icon="🌠",
         layout="wide"
     )
 

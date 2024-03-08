@@ -20,17 +20,20 @@ LOGGER = get_logger(__name__)
 
 
 st.set_page_config(
-        page_title="Pokedata Jrose",
+        page_title="Pokedata Jrose11",
         page_icon="🎮")
 
 with open("/workspaces/pokedata-jrose11/static/Sprite_0065_RB.png", "rb") as f:
-    data = base64.b64encode(f.read()).decode("utf-8")
+    alakazam = base64.b64encode(f.read()).decode("utf-8")
+
+with open("/workspaces/pokedata-jrose11/static/Sprite_0093_RB.png", "rb") as f:
+    spectrum = base64.b64encode(f.read()).decode("utf-8")
 
 st.markdown(
         f"""
                 <div>
-                        <h1>Welcome to Pokedata Jroose 11 !
-                        <img src="data:image/png;base64,{data}" width="60" height="60" style="padding-bottom: 10px">
+                        <h1><b>Welcome to Pokedata </b> Jrose 11 !
+                        <img src="data:image/png;base64,{alakazam}"style="padding-bottom: 10px">
                 </div>
         """, unsafe_allow_html=True)
 
@@ -42,12 +45,21 @@ st.markdown(
 
         I hope you'll find it usefull and fun !
 
-        I want to thank [Jrose11](https://www.youtube.com/@Jrose11) for it's work and all people that work or have been working on sites that provides pokedatas, especially Bulbapedia, Pokepédia and Westwood : https://github.com/EverOddish/Westwood.
+        I want to thank [Jrose11](https://www.youtube.com/@Jrose11) for it's work and all people that work or have been working on sites that provides pokedatas, especially Bulbapedia, Pokepédia and [Westwood](https://github.com/EverOddish/Westwood).
         And also, all people that work for the libraries that I used.
 
         Enjoy !
 
         """)
 
-st.success("By Milleret Guillaume : [Github](https://github.com/Guimill), [Linkedin](https://www.linkedin.com/in/guillaume-milleret/), Mail: guillaume.milleret@gmail.com")
+st.markdown(f"""
+            
+            <br><br>
+                <div>
+                        <b>Milleret Guillaume</b> <img src="data:image/png;base64,{spectrum}" style="padding-bottom: 10px">
+                </div>   
+            <br>
+           """, unsafe_allow_html=True)
+
+st.error(' [Github](https://github.com/Guimill), [Linkedin](https://www.linkedin.com/in/guillaume-milleret/), Mail: guillaume.milleret@gmail.com')
 
