@@ -5,5 +5,8 @@ pydeck
 streamlit
 seaborn
 prince
-sklearn
+scikit-learn
 plotly
+statsmodels
+matplotlib
+seaborn
