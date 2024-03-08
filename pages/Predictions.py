@@ -164,7 +164,7 @@ fig_stats = go.Figure()
 for index, row in pokestats_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "../static/" + sprite
+    sprite_src = "./static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]
@@ -242,7 +242,7 @@ fig_all = go.Figure()
 for index, row in pokestats_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "../static/" + sprite
+    sprite_src = "./static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value_all = row['TOT']

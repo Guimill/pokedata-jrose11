@@ -82,7 +82,7 @@ fig_pos = go.Figure()
 for index, row in pokepos_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "../static/" + sprite
+    sprite_src = "./static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]
@@ -183,7 +183,7 @@ fig_tiers = go.Figure()
 for index, row in poketiers_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "../static/" + sprite
+    sprite_src = "./static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]
@@ -284,7 +284,7 @@ fig_time = go.Figure()
 for index, row in pokeTime_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "../static/" + sprite
+    sprite_src = "./static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row[Stats]

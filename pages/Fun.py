@@ -80,7 +80,7 @@ spearman_corr = pokename_sorted[['LEN_POKEMON', 'POSITION']].corr(method='spearm
 for index, row in pokename_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "../static/" + sprite
+    sprite_src = "./static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row['LEN_POKEMON']

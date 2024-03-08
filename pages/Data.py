@@ -54,7 +54,7 @@ data = st.selectbox("Here's all the Dataframes that I created for this site, you
 
 st.dataframe(locals()[data])
 
-with open("../data/sprites.zip", "rb") as fp:
+with open("./data/sprites.zip", "rb") as fp:
     btn = st.download_button(
         label=''':open_file_folder: :rainbow[Download the sprites used in this app]''',
         data=fp,
