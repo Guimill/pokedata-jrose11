@@ -27,11 +27,11 @@ Tiers_map={"SS":1,"S":2,"A":3,"B":4,"C":5,"D":6,"E":7,"F":8,"G":9,"H":10,"I":11,
 
 #dataframe preparation
 
-pokedata = pd.read_csv('/workspaces/pokedata-jrose11/data/pokedata.csv', sep = ';')
-pokemoves = pd.read_csv('/workspaces/pokedata-jrose11/data/Full_Moves.csv', sep = ';')
-att_moves = pd.read_csv('/workspaces/pokedata-jrose11/data/FULL_ATT_MOVES.csv', sep = ';')
-status_moves = pd.read_csv('/workspaces/pokedata-jrose11/data/FULL_STATUS_MOVES.csv', sep = ';')
-pokesprites = pd.read_csv('/workspaces/pokedata-jrose11/data/sprites_name.csv')
+pokedata = pd.read_csv('../data/pokedata.csv', sep = ';')
+pokemoves = pd.read_csv('../data/Full_Moves.csv', sep = ';')
+att_moves = pd.read_csv('../data/FULL_ATT_MOVES.csv', sep = ';')
+status_moves = pd.read_csv('../data/FULL_STATUS_MOVES.csv', sep = ';')
+pokesprites = pd.read_csv('../data/sprites_name.csv')
 
 
 replace_values = {'int64': 0, 'float64': 0.0, 'object': ''}
@@ -80,7 +80,7 @@ spearman_corr = pokename_sorted[['LEN_POKEMON', 'POSITION']].corr(method='spearm
 for index, row in pokename_sorted.iterrows():
     number = row['NUMBER'] - 1
     sprite = pokesprites['SPRITE_NAME'].iloc[number]
-    sprite_src = "/workspaces/pokedata-jrose11/static/" + sprite
+    sprite_src = "../static/" + sprite
     with open(sprite_src, "rb") as f:
         sprite_f = base64.b64encode(f.read()).decode("utf-8")
     value = row['LEN_POKEMON']

@@ -22,11 +22,11 @@ NEW_DTYPE_PALETTE =  pd.DataFrame.from_dict(dt_type_pal_new,orient = 'index', co
 NEW_DTYPE_PALETTE_DOUBLE =  pd.DataFrame.from_dict(dt_type_pal_new_double,orient = 'index', columns = ['1 type coulours','2 type coulours'])
 NEW_TRUE_TIERS_PALETTE = pd.DataFrame.from_dict(True_Tiers_palette, orient='index', columns=['colours'])
 
-POKEDATA = pd.read_csv('/workspaces/pokedata-jrose11/data/pokedata.csv', sep = ';')
-POKEMOVES = pd.read_csv('/workspaces/pokedata-jrose11/data/Full_Moves.csv', sep = ';')
-ATT_MOVES = pd.read_csv('/workspaces/pokedata-jrose11/data/FULL_ATT_MOVES.csv', sep = ';')
-STATUS_MOVES = pd.read_csv('/workspaces/pokedata-jrose11/data/FULL_STATUS_MOVES.csv', sep = ';')
-JROSE11 = pd.read_csv('/workspaces/pokedata-jrose11/data/JROSE11.csv', sep = ';')
+POKEDATA = pd.read_csv('../data/pokedata.csv', sep = ';')
+POKEMOVES = pd.read_csv('../data/Full_Moves.csv', sep = ';')
+ATT_MOVES = pd.read_csv('../data/FULL_ATT_MOVES.csv', sep = ';')
+STATUS_MOVES = pd.read_csv('../data/FULL_STATUS_MOVES.csv', sep = ';')
+JROSE11 = pd.read_csv('../data/JROSE11.csv', sep = ';')
 
 
 # Define replacement values for NaN based on data types
@@ -54,7 +54,7 @@ data = st.selectbox("Here's all the Dataframes that I created for this site, you
 
 st.dataframe(locals()[data])
 
-with open("/workspaces/pokedata-jrose11/data/sprites.zip", "rb") as fp:
+with open("../data/sprites.zip", "rb") as fp:
     btn = st.download_button(
         label=''':open_file_folder: :rainbow[Download the sprites used in this app]''',
         data=fp,
