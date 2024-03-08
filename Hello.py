@@ -20,7 +20,7 @@ LOGGER = get_logger(__name__)
 
 
 st.set_page_config(
-        page_title="Pokedata Jroose",
+        page_title="Pokedata Jrose",
         page_icon="🎮")
 
 with open("/workspaces/pokedata-jroose11/static/Sprite_0065_RB.png", "rb") as f:
@@ -38,11 +38,11 @@ st.markdown(
 st.markdown(
         """
 
-        This webapp is design to give interpretetions and interactivness on the binding beetween [Jroose11](https://www.youtube.com/@Jrose11) runs and the datas from pokemon gen 1
+        This webapp is design to give interpretetions and interactivness on the binding beetween [Jrose11](https://www.youtube.com/@Jrose11) runs and the datas from pokemon gen 1
 
         I hope you'll find it usefull and fun !
 
-        I want to thank [Jroose11](https://www.youtube.com/@Jrose11) for it's work and all people that work or have been working on sites that provides pokedatas, especially Bulbapedia, Pokepédia and Westwood : https://github.com/EverOddish/Westwood.
+        I want to thank [Jrose11](https://www.youtube.com/@Jrose11) for it's work and all people that work or have been working on sites that provides pokedatas, especially Bulbapedia, Pokepédia and Westwood : https://github.com/EverOddish/Westwood.
         And also, all people that work for the libraries that I used.
 
         Enjoy !
