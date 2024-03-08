@@ -4,9 +4,7 @@ pandas
 pydeck
 streamlit
 seaborn
-prince
 scikit-learn
 plotly
 statsmodels
 matplotlib
-seaborn
