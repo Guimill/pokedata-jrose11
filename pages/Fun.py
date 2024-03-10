@@ -3,7 +3,6 @@ import streamlit as st
 import numpy as np
 import plotly.express as px
 import matplotlib.pyplot as plt
-import seaborn as sns
 import plotly.graph_objects as go
 import statsmodels.api as sm
 import base64
