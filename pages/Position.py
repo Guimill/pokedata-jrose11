@@ -130,12 +130,20 @@ fig_pos.add_trace(go.Scatter(x=pokepos_sorted['POSITION'], y=regression_line_pos
 
 # Update layout
 fig_pos.update_layout(
-    xaxis=dict(title='Position',
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    yaxis=dict(title=Stats,
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
+    xaxis=dict(
+        title=dict(
+            text='Position',
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    yaxis=dict(
+        title=dict(
+            text=Stats,
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
     legend=dict(title='Types'),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
@@ -229,12 +237,20 @@ fig_tiers.add_trace(go.Scatter(x=poketiers_sorted['TIERS'], y=regression_line_ti
 
 # Update layout
 fig_tiers.update_layout(
-    xaxis=dict(title="Tiers",
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    yaxis=dict(title=Stats,
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
+    xaxis=dict(
+        title=dict(
+            text='Tiers',
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    yaxis=dict(
+        title=dict(
+            text=Stats,
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
     legend=dict(title='Types'),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
@@ -330,12 +346,20 @@ fig_time.add_trace(go.Scatter(x=pokeTime_sorted['TIME'], y=regression_line_time,
 
 # Update layout
 fig_time.update_layout(
-    xaxis=dict(title="Time",
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    yaxis=dict(title=Stats,
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
+    xaxis=dict(
+        title=dict(
+            text='Time',
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    yaxis=dict(
+        title=dict(
+            text=Stats,
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
     legend=dict(title='Types'),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot

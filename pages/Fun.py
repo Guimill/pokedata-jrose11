@@ -126,30 +126,40 @@ fig.add_trace(go.Scatter(x=data['POSITION'], y=model.predict(), mode='lines', na
 
 # Update layout
 fig.update_layout(
-    xaxis=dict(title='Position',
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    yaxis=dict(title='Length of Pokemon\'s names',
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    legend=dict(title='Types'),
-    width=1280,  # Adjust the width of the plot
-    height=720,  # Adjust the height of the plot
-    title={
-        'text': "Scatter Plot of Pokemon Length vs. Position",
-        'x': 0.5,  # Set title's x position to center
-        'xanchor': 'center',  # Anchor title to the center
-        'font': {'size': 30}
-    },
+    xaxis=dict(
+        title=dict(
+            text='Position',
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    yaxis=dict(
+        title=dict(
+            text="Length of Pokemon's names",
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    legend=dict(title=dict(text='Types')),
+    width=1280,
+    height=720,
+    title=dict(
+        text="Scatter Plot of Pokemon Length vs. Position",
+        x=0.5,
+        xanchor='center',
+        font=dict(size=30)
+    ),
     margin=dict(t=100),
-    annotations=[dict(
-        text=f"Spearman Correlation: {spearman_corr * 100:.2f}%",
-        x=1, y=1.05,
-        xref="paper", yref="paper",
-        showarrow=False,
-        font=dict(color="black", size=16),
-        bgcolor="#f06d57", opacity=0.8
-    )],
+    annotations=[
+        dict(
+            text=f"Spearman Correlation: {spearman_corr * 100:.2f}%",
+            x=1, y=1.05,
+            xref="paper", yref="paper",
+            showarrow=False,
+            font=dict(color="black", size=16),
+            bgcolor="#f06d57", opacity=0.8
+        )
+    ],
 )
 
 # Show plot

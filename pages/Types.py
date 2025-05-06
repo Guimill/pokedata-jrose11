@@ -116,14 +116,19 @@ for i, Stats_sum_value in enumerate([Stats_sum_2.values[1:]]):
 
 layout_sum = go.Layout(
     xaxis=dict(
-        title='DTYPES',
-        tickangle=45,
+        title=dict(
+            text='DTYPES',
+            font=dict(size=25)
+        ),
         tickfont=dict(size=15),
-        titlefont=dict(size=25)),
+    ),
     yaxis=dict(
-        title=f'{Stats_sum.name}',
+        title=dict(
+            text=f'{Stats_sum.name}',
+            font=dict(size=25)
+        ),
         tickfont=dict(size=25),
-        titlefont=dict(size=25)),
+    ),       
     barmode='overlay',
     title={
         'text': f'Total {Stats_sum.name} for each Types in Jroose Tier List',
@@ -193,14 +198,19 @@ for i, Stats_mean_value in enumerate([Stats_mean_2.values[1:]]):
 
 layout_mean = go.Layout(
     xaxis=dict(
-        title='DTYPES',
-        tickangle=45,
+        title=dict(
+            text='DTYPES',
+            font=dict(size=25)
+        ),
         tickfont=dict(size=15),
-        titlefont=dict(size=25)),
+    ),
     yaxis=dict(
-        title=f'{Stats_mean.name}',
+        title=dict(
+            text=f'{Stats_mean.name}',
+            font=dict(size=25)
+        ),
         tickfont=dict(size=25),
-        titlefont=dict(size=25)),
+    ),
     barmode='overlay',
     title={
         'text': f'Mean {Stats_mean.name} for each Types in Jroose Tier List',
@@ -270,14 +280,19 @@ for i, Stats_median_value in enumerate([Stats_median_2.values[1:]]):
 
 layout_median = go.Layout(
     xaxis=dict(
-        title='DTYPES',
-        tickangle=45,
+        title=dict(
+            text='DTYPES',
+            font=dict(size=25)
+        ),
         tickfont=dict(size=15),
-        titlefont=dict(size=25)),
+    ),
     yaxis=dict(
-        title=f'{Stats_median.name}',
+        title=dict(
+            text=f'{Stats_median.name}',
+            font=dict(size=25)
+        ),
         tickfont=dict(size=25),
-        titlefont=dict(size=25)),
+    ),        
     barmode='overlay',
     title={
         'text': f'Median {Stats_median.name} for each Types in Jroose Tier List',

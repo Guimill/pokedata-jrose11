@@ -212,12 +212,20 @@ for index, row in pokestats_sorted.iterrows():
 
 # Update layout
 fig_stats.update_layout(
-    xaxis=dict(title='Position',
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    yaxis=dict(title=Stats,
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
+    xaxis=dict(
+        title=dict(
+            text='Position',
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    yaxis=dict(
+        title=dict(
+            text=Stats,
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
     title={
@@ -290,12 +298,20 @@ for index, row in pokestats_sorted.iterrows():
 
 # Update layout
 fig_all.update_layout(
-    xaxis=dict(title='Position',
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    yaxis=dict(title='All stats',
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
+    xaxis=dict(
+        title=dict(
+            text='Position',
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    yaxis=dict(
+        title=dict(
+            text="All stats",
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
     title={

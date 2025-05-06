@@ -110,12 +110,20 @@ fig.add_trace(go.Bar(
 
 # Updating layout
 fig.update_layout(
-    xaxis=dict(title="Move Type",
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
-    yaxis=dict(title=Stats,
-        tickfont=dict(size=20),
-        titlefont=dict(size=25)),
+    xaxis=dict(
+        title=dict(
+            text='Move Type',
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
+    yaxis=dict(
+        title=dict(
+            text=Stats,
+            font=dict(size=25)
+        ),
+        tickfont=dict(size=20)
+    ),
     width=1280,  # Adjust the width of the plot
     height=720,  # Adjust the height of the plot
     title={
